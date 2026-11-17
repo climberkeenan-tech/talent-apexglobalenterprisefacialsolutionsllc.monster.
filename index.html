@@ -10,17 +10,17 @@
 <meta property="og:title" content="Apex Global: We Sell Literally Nothing (Parody)">
 <meta property="og:description" content="A parody site for a fictional company whose only product is nothing. Nothing is for sale and no payments are taken.">
 <meta name="theme-color" content="#04061a">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c8ff4d'/%3E%3Cpath d='M9.5 21.5 16 10l6.5 11.5' fill='none' stroke='%2304061a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='21.5' r='2.3' fill='none' stroke='%2304061a' stroke-width='2.2'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%279%27%20fill%3D%27%23c8ff4d%27%2F%3E%3Cpath%20d%3D%27M9.5%2021.5%2016%2010l6.5%2011.5%27%20fill%3D%27none%27%20stroke%3D%27%2304061a%27%20stroke-width%3D%273%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2721.5%27%20r%3D%272.3%27%20fill%3D%27none%27%20stroke%3D%27%2304061a%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 /* ==========================================================================
    Apex Global Enterprise Facial Solutions LLC. A parody. Nothing is for sale.
    One file, zero network requests, no build step.
 
-   01 Tokens       06 Hero           11 Pricing
-   02 Base         07 Press strip    12 FAQ
+   01 Tokens       06 Hero           11 Pricing        16 Forced colors
+   02 Base         07 Press strip    12 FAQ            17 Print
    03 Utilities    08 Solutions      13 Footer
-   04 Buttons      09 Stats band     14 Buy dialog
+   04 Buttons      09 Stats band     14 Buy dialog (and tiny screens)
    05 Header       10 Reviews        15 Motion
    ========================================================================== */
 
@@ -38,7 +38,6 @@
   --indigo-500: #5a55f2;
   --indigo-400: #8286ff;
   --indigo-200: #cdd1ff;
-  --indigo-100: #e4e6ff;
   --indigo-50: #f1f2ff;
   --volt: #c8ff4d;
   --volt-bright: #dcff85;
@@ -52,12 +51,13 @@
 
   --on-dark: #ffffff;
   --on-dark-soft: rgba(255, 255, 255, 0.8);
-  --on-dark-muted: rgba(255, 255, 255, 0.66);
+  --on-dark-muted: rgba(255, 255, 255, 0.68);
   --line-dark: rgba(255, 255, 255, 0.12);
   --glass: rgba(255, 255, 255, 0.07);
   --glass-edge: rgba(255, 255, 255, 0.16);
 
-  /* Type: system stacks only. */
+  /* Type: system stacks only. Display text is weight 700, which every
+     system family has, so no platform swaps in a heavier cut. */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
@@ -80,8 +80,7 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4rem;
-  --space-9: 6rem;
-  --section-y: clamp(4rem, 2.5rem + 6vw, 7.5rem);
+  --section-y: clamp(4rem, 2.5rem + 6vw, 7rem);
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --container: 75rem;
   --header-h: 4.25rem;
@@ -90,7 +89,6 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1.25rem;
-  --radius-xl: 2rem;
   --radius-pill: 999px;
   --shadow-sm: 0 1px 2px rgba(11, 16, 48, 0.05), 0 4px 12px -2px rgba(11, 16, 48, 0.06);
   --shadow-md: 0 2px 4px rgba(11, 16, 48, 0.04), 0 16px 32px -12px rgba(11, 16, 48, 0.16);
@@ -121,6 +119,8 @@ body {
   line-height: 1.6;
   color: var(--ink-soft);
   background: var(--paper);
+  /* A word too long for its box breaks instead of widening the page. */
+  overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -132,7 +132,8 @@ p,
 ul,
 dl,
 dd,
-blockquote {
+blockquote,
+figure {
   margin: 0;
 }
 
@@ -160,14 +161,23 @@ svg {
   flex: none;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 ::selection {
   background: var(--volt);
   color: var(--navy-950);
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* The skip link lands here. It is a target, not a control. */
+main:focus-visible {
+  outline: 0;
 }
 
 /* 03 Utilities ------------------------------------------------------------ */
@@ -193,7 +203,17 @@ svg {
   height: 2rem;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .skip-link {
+  --focus: var(--on-dark);
   position: absolute;
   top: var(--space-2);
   left: var(--space-2);
@@ -226,12 +246,13 @@ svg {
 
 .pill {
   display: inline-flex;
+  flex: none;
   align-items: center;
   height: 1.5rem;
   padding: 0 0.625rem;
   border-radius: var(--radius-pill);
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
@@ -272,6 +293,7 @@ svg {
 
 .eyebrow::before {
   content: "";
+  flex: none;
   width: 1.5rem;
   height: 2px;
   border-radius: 2px;
@@ -314,18 +336,17 @@ svg {
   justify-content: center;
   gap: var(--space-2);
   min-height: 3rem;
-  padding: 0 1.375rem;
+  padding: 0.375rem 1.375rem;
   border: 0;
   border-radius: var(--radius-md);
   font-family: inherit;
   font-size: var(--text-md);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: -0.01em;
-  white-space: nowrap;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.25s var(--ease-out);
 }
 
 /* Hover state lives on a layer that only fades, so nothing but
@@ -337,7 +358,6 @@ svg {
   z-index: -1;
   border-radius: inherit;
   opacity: 0;
-  transition: opacity 0.25s ease;
 }
 
 .btn:active {
@@ -346,7 +366,7 @@ svg {
 
 .btn--lg {
   min-height: 3.25rem;
-  padding: 0 1.5rem;
+  padding-inline: 1.5rem;
   font-size: 1.0625rem;
 }
 
@@ -355,6 +375,7 @@ svg {
   padding: 0 1rem;
   border-radius: 0.625rem;
   font-size: var(--text-sm);
+  white-space: nowrap;
 }
 
 .btn--block {
@@ -395,7 +416,54 @@ svg {
 .btn__icon {
   width: 1.125rem;
   height: 1.125rem;
-  transition: transform 0.25s var(--ease-out);
+}
+
+/* Text button with an icon. Used for the reviews pause and play control. */
+.chip-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: 0 1.125rem 0 0.875rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chip-btn[hidden] {
+  display: none;
+}
+
+.chip-btn .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Wide enough for the longer of its two words, so the bar never shifts. */
+.chip-btn__label {
+  min-width: 2.875rem;
+  text-align: left;
+}
+
+.chip-btn[aria-pressed="true"] {
+  background: var(--navy-900);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), var(--shadow-sm);
+  color: var(--volt);
+}
+
+.chip-btn[aria-pressed="false"] .icon--play,
+.chip-btn[aria-pressed="true"] .icon--pause {
+  display: none;
 }
 
 @media (hover: hover) {
@@ -414,6 +482,10 @@ svg {
   .btn:hover .btn__icon--down {
     transform: translate3d(0, 3px, 0);
   }
+
+  .chip-btn:hover {
+    transform: translate3d(0, -1px, 0);
+  }
 }
 
 /* 05 Header --------------------------------------------------------------- */
@@ -425,18 +497,15 @@ svg {
   color: var(--on-dark);
 }
 
-/* Glass backdrop. Solid by default so the header stays readable without
-   JavaScript. The script lets it go clear while the page is at the top. */
+/* Solid by default so the header stays readable without JavaScript.
+   The script lets it go clear while the page is at the top. */
 .site-header::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   border-bottom: 1px solid var(--line-dark);
-  background: rgba(4, 6, 26, 0.94);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  transition: opacity 0.3s ease;
+  background: var(--navy-950);
 }
 
 .site-header.is-at-top:not(.is-menu-open)::before {
@@ -454,6 +523,8 @@ svg {
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
+  min-width: 0;
+  max-width: 100%;
   min-height: 2.75rem;
   border-radius: var(--radius-sm);
   color: var(--on-dark);
@@ -466,16 +537,36 @@ svg {
 }
 
 .brand__text {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
+  display: grid;
+  min-width: 0;
 }
 
 .brand__name {
   font-size: 1.0625rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.2;
+}
+
+/* The full legal name sits under the wordmark wherever there is room. */
+.brand__legal {
+  color: var(--on-dark-muted);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.site-header .brand__legal {
+  display: none;
+}
+
+/* If a very wide font or a text spacing override ever leaves too little
+   room, the brand is the one item in the header that gives way: on wide
+   screens it shortens with an ellipsis, and on small screens the wordmark
+   wraps to a second line. */
+.site-header .brand__name,
+.site-header .brand__legal {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -493,10 +584,11 @@ svg {
   letter-spacing: 0.12em;
   line-height: 1;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .site-nav {
-  margin-left: var(--space-5);
+  margin-left: var(--space-4);
 }
 
 .site-nav__list {
@@ -528,20 +620,28 @@ svg {
   background: var(--volt);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.3s var(--ease-out);
 }
 
-.site-nav__link:hover,
 .site-nav__link[aria-current] {
   color: var(--on-dark);
 }
 
-.site-nav__link:hover::after,
 .site-nav__link[aria-current]::after {
   transform: scaleX(1);
 }
 
+@media (hover: hover) {
+  .site-nav__link:hover {
+    color: var(--on-dark);
+  }
+
+  .site-nav__link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
 .site-header__buy {
+  flex: none;
   margin-left: auto;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
@@ -552,6 +652,7 @@ svg {
 
 .menu-btn {
   display: none;
+  flex: none;
   place-content: center;
   gap: 6px;
   width: 2.75rem;
@@ -571,7 +672,6 @@ svg {
   height: 2px;
   border-radius: 2px;
   background: currentColor;
-  transition: transform 0.3s var(--ease-out);
 }
 
 .menu-btn[aria-expanded="true"] .menu-btn__bar:first-child {
@@ -580,6 +680,12 @@ svg {
 
 .menu-btn[aria-expanded="true"] .menu-btn__bar:last-child {
   transform: translate3d(0, -4px, 0) rotate(-45deg);
+}
+
+@media (min-width: 68.75em) {
+  .site-header .brand__legal {
+    display: block;
+  }
 }
 
 @media (max-width: 56.24em) {
@@ -591,17 +697,29 @@ svg {
     gap: var(--space-2);
   }
 
-  .brand__text {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.125rem;
+  /* Mark on the left, wordmark over the Parody tag on the right. */
+  .site-header .brand {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    column-gap: 0.625rem;
+    row-gap: 0.125rem;
   }
 
-  .brand__name {
+  .site-header .brand__mark {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  .site-header .brand__name {
+    overflow: visible;
     font-size: 1rem;
+    white-space: normal;
   }
 
   .brand__tag {
+    grid-column: 2;
+    justify-self: start;
     height: auto;
     padding: 0;
     background: none;
@@ -610,17 +728,19 @@ svg {
   }
 
   .site-header__buy {
-    order: 2;
     min-height: 2.75rem;
     padding: 0 0.875rem;
   }
 
-  .menu-btn {
-    order: 3;
-  }
-
+  /* Menu button, then the links it opens, then the buy button: the same
+     order on screen and for the Tab key. */
   .js .menu-btn {
     display: grid;
+    margin-left: auto;
+  }
+
+  .js .site-header__buy {
+    margin-left: 0;
   }
 
   /* The navigation becomes a sheet under the header. */
@@ -639,10 +759,12 @@ svg {
   .site-nav__list {
     flex-direction: column;
     gap: 0;
+    counter-reset: nav;
   }
 
   .site-nav__link {
     display: flex;
+    justify-content: space-between;
     min-height: 3.25rem;
     padding: 0 var(--space-1);
     border-bottom: 1px solid var(--line-dark);
@@ -654,8 +776,18 @@ svg {
     border-bottom: 0;
   }
 
+  /* In the sheet the underline becomes a row number. */
   .site-nav__link::after {
-    display: none;
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--on-dark-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    transform: none;
+    counter-increment: nav;
+    content: "0" counter(nav);
   }
 
   .js .site-nav {
@@ -697,17 +829,41 @@ svg {
     border: 0;
     font-size: 0.9375rem;
   }
+
+  html:not(.js) .site-nav__link::after {
+    content: none;
+  }
 }
 
-/* Below 360px the wordmark steps aside for the buy button. */
+/* On the narrowest phones the buy button tightens up. */
+@media (max-width: 24.49em) {
+  .site-header__buy {
+    padding: 0 0.75rem;
+  }
+}
+
+/* Below 360px the wordmark steps aside. The Parody tag stays, whole. If a
+   very wide font leaves too little room here, the buy button is the item
+   that gives way, and its label goes to two lines. */
 @media (max-width: 22.49em) {
-  .brand__text {
+  .site-header .brand {
+    display: inline-flex;
+    flex: none;
+    gap: var(--space-2);
+  }
+
+  .site-header .brand__text {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip-path: inset(50%);
-    white-space: nowrap;
+  }
+
+  .site-header__buy {
+    flex: 0 1 auto;
+    padding: 0 0.625rem;
+    white-space: normal;
   }
 }
 
@@ -716,6 +872,7 @@ svg {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  overflow: clip;
   margin-top: calc(-1 * var(--header-h));
   padding-top: var(--header-h);
   background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 36%, #11164d 78%, #1b1e78 100%);
@@ -733,8 +890,8 @@ svg {
 
 .hero-wrap::before {
   background:
-    radial-gradient(54rem 34rem at 84% 18%, rgba(90, 85, 242, 0.42), transparent 62%),
-    radial-gradient(40rem 24rem at 6% 100%, rgba(67, 56, 202, 0.5), transparent 66%);
+    radial-gradient(54rem 34rem at 84% 18%, rgba(90, 85, 242, 0.42), rgba(90, 85, 242, 0) 62%),
+    radial-gradient(40rem 24rem at 6% 100%, rgba(67, 56, 202, 0.5), rgba(67, 56, 202, 0) 66%);
 }
 
 /* Fine grid that fades out from behind the illustration. */
@@ -779,9 +936,10 @@ svg {
   margin-top: var(--space-5);
   color: var(--on-dark);
   font-size: var(--text-3xl);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  word-spacing: 0.04em;
 }
 
 .hero__title em {
@@ -791,7 +949,7 @@ svg {
 
 .hero__lead {
   margin-top: var(--space-5);
-  max-width: 34rem;
+  max-width: 35rem;
   font-size: var(--text-lg);
   line-height: 1.6;
 }
@@ -808,6 +966,7 @@ svg {
 }
 
 .hero__fine {
+  max-width: 35rem;
   margin-top: var(--space-4);
   color: var(--on-dark-muted);
   font-size: var(--text-sm);
@@ -815,9 +974,10 @@ svg {
 
 .trust {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
   padding-top: var(--space-5);
   border-top: 1px solid var(--line-dark);
 }
@@ -852,13 +1012,18 @@ svg {
   font-weight: 600;
 }
 
+.trust__where {
+  white-space: nowrap;
+}
+
 .hero__art {
   position: relative;
   width: 100%;
   max-width: 38rem;
 }
 
-/* Glow and ground shadow behind the console. */
+/* Glow and ground shadow behind the console. Plain gradients: nothing on
+   this page is blurred while you scroll. */
 .hero__art::before,
 .hero__art::after {
   content: "";
@@ -868,24 +1033,27 @@ svg {
 }
 
 .hero__art::before {
-  inset: 2% -6% 10% 6%;
-  background: radial-gradient(closest-side, rgba(90, 85, 242, 0.6), transparent);
-  filter: blur(36px);
+  inset: -6% -12% 2% 0;
+  background: radial-gradient(closest-side, rgba(90, 85, 242, 0.55), rgba(90, 85, 242, 0));
 }
 
 .hero__art::after {
-  right: 6%;
-  bottom: 4%;
-  left: 10%;
-  height: 26%;
-  background: rgba(2, 3, 15, 0.75);
-  filter: blur(34px);
+  right: 0;
+  bottom: -6%;
+  left: 4%;
+  height: 40%;
+  background: radial-gradient(closest-side, rgba(2, 3, 15, 0.8), rgba(2, 3, 15, 0));
 }
 
 .console {
   width: 100%;
   height: auto;
   overflow: visible;
+}
+
+/* Phones get their own drawing with larger type. */
+.console--wide {
+  display: none;
 }
 
 .console text {
@@ -932,20 +1100,20 @@ svg {
 }
 
 .c-sub {
-  fill: rgba(255, 255, 255, 0.62);
-  font-size: 11px;
+  fill: rgba(255, 255, 255, 0.66);
+  font-size: 11.5px;
 }
 
 .c-label {
-  fill: rgba(255, 255, 255, 0.62);
-  font-size: 10px;
+  fill: rgba(255, 255, 255, 0.66);
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 .c-axis {
-  fill: rgba(255, 255, 255, 0.55);
-  font-size: 10.5px;
+  fill: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
 }
 
 .c-value {
@@ -963,9 +1131,38 @@ svg {
 
 .c-live {
   fill: var(--volt);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
+}
+
+.console--compact .c-sub,
+.console--compact .c-label,
+.console--compact .c-axis,
+.console--compact .c-live {
+  font-size: 12px;
+}
+
+.console--compact .c-tip {
+  font-size: 13px;
+}
+
+@media (max-width: 39.99em) {
+  .hero__art {
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+}
+
+
+@media (min-width: 40em) {
+  .console--wide {
+    display: block;
+  }
+
+  .console--compact {
+    display: none;
+  }
 }
 
 @media (min-width: 68.75em) {
@@ -983,6 +1180,30 @@ svg {
 
   .hero__art {
     justify-self: end;
+  }
+}
+
+/* Between phone and desktop the stacked hero is centered. */
+@media (min-width: 40em) and (max-width: 68.74em) {
+  .hero__copy,
+  .hero__lead,
+  .hero__fine,
+  .hero__art {
+    margin-inline: auto;
+  }
+
+  .hero__copy {
+    max-width: 46rem;
+    text-align: center;
+  }
+
+  .hero__actions,
+  .trust {
+    justify-content: center;
+  }
+
+  .hero__actions .btn {
+    flex: 0 0 auto;
   }
 }
 
@@ -1014,7 +1235,7 @@ svg {
   justify-items: center;
   gap: var(--space-5) var(--space-4);
   margin-top: var(--space-5);
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(255, 255, 255, 0.78);
   font-size: clamp(0.72rem, 3.6vw, 1rem);
 }
 
@@ -1031,9 +1252,9 @@ svg {
 }
 
 .press__mark--caps {
-  font-size: 0.8125em;
-  font-weight: 800;
-  letter-spacing: 0.2em;
+  font-size: 0.875em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -1067,52 +1288,39 @@ svg {
   letter-spacing: -0.05em;
 }
 
+.press__note {
+  margin-top: var(--space-5);
+  color: var(--on-dark-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
 @media (min-width: 40em) {
   .press__list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 68.75em) {
+/* One row once all six fit with room to spare. The row may wrap, so a
+   wordmark is never pushed off the page. */
+@media (min-width: 75em) {
   .press__list {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--space-5);
+    gap: var(--space-4) var(--space-5);
     margin-top: var(--space-6);
+    font-size: min(1rem, 1.25vw);
   }
 }
 
 /* 08 Solutions ------------------------------------------------------------ */
+/* Soft color fields for the cards to sit on. */
 .solutions {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-}
-
-/* Soft color fields for the frosted cards to sit on. */
-.solutions::before,
-.solutions::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  border-radius: 50%;
-  filter: blur(80px);
-}
-
-.solutions::before {
-  top: 34%;
-  left: -8rem;
-  width: 38rem;
-  height: 26rem;
-  background: rgba(130, 134, 255, 0.3);
-}
-
-.solutions::after {
-  top: 52%;
-  right: -6rem;
-  width: 30rem;
-  height: 22rem;
-  background: rgba(200, 255, 77, 0.32);
+  background:
+    radial-gradient(42rem 30rem at -6% 58%, rgba(130, 134, 255, 0.3), rgba(130, 134, 255, 0) 70%),
+    radial-gradient(34rem 26rem at 106% 74%, rgba(200, 255, 77, 0.3), rgba(200, 255, 77, 0) 70%),
+    var(--paper);
 }
 
 .solutions__grid {
@@ -1128,11 +1336,8 @@ svg {
   padding: 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 0 1px rgba(11, 16, 48, 0.06), var(--shadow-sm);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
-  backdrop-filter: blur(14px) saturate(150%);
-  transition: transform 0.4s var(--ease-out);
 }
 
 /* The lifted shadow is its own layer and only fades in. */
@@ -1145,7 +1350,6 @@ svg {
   box-shadow: var(--shadow-lg);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
 }
 
 @media (hover: hover) {
@@ -1216,12 +1420,13 @@ svg {
   padding-top: var(--space-4);
   border-top: 1px dashed rgba(11, 16, 48, 0.16);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
 .card__meta dt {
   color: var(--ink-muted);
+  white-space: nowrap;
 }
 
 .card__meta dd {
@@ -1230,9 +1435,46 @@ svg {
   text-align: right;
 }
 
+/* The complete feature list. It is a labelled, empty box. */
+.blank {
+  display: grid;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  margin-top: var(--space-5);
+  padding: var(--space-5) 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 1px rgba(11, 16, 48, 0.06), var(--shadow-sm);
+}
+
+.blank__label {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.blank__box {
+  min-height: 3.25rem;
+  border: 1.5px dashed rgba(11, 16, 48, 0.3);
+  border-radius: var(--radius-md);
+  background: rgba(244, 245, 251, 0.7);
+}
+
+.blank__note {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
 @media (min-width: 40em) {
   .solutions__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 48em) {
+  .blank {
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 }
 
@@ -1256,7 +1498,7 @@ svg {
   isolation: isolate;
   padding-block: clamp(3rem, 6vw, 4.5rem);
   background:
-    radial-gradient(48rem 26rem at 88% -10%, rgba(90, 85, 242, 0.5), transparent 62%),
+    radial-gradient(48rem 26rem at 88% -10%, rgba(90, 85, 242, 0.5), rgba(90, 85, 242, 0) 62%),
     linear-gradient(115deg, var(--navy-700) 0%, #2a2590 55%, var(--indigo-700) 100%);
   color: var(--on-dark);
 }
@@ -1284,34 +1526,37 @@ svg {
 .stat {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .stat__value {
   order: -1;
   font-size: var(--text-stat);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
 }
 
 .stat__label {
   margin-top: var(--space-3);
   font-weight: 600;
   line-height: 1.35;
+  text-wrap: balance;
 }
 
 .stat__note {
   margin-top: var(--space-1);
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.84);
   font-size: 0.9375rem;
   line-height: 1.45;
+  text-wrap: balance;
 }
 
 .stats__footnote {
   margin-top: var(--space-6);
   padding-top: var(--space-5);
   border-top: 1px solid rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.84);
   font-size: var(--text-sm);
 }
 
@@ -1322,13 +1567,18 @@ svg {
   }
 
   .stat {
-    padding-inline: var(--space-6);
+    padding-inline: clamp(1.25rem, 2.4vw, 2rem);
     border-left: 1px solid rgba(255, 255, 255, 0.16);
   }
 
   .stat:first-child {
     padding-left: 0;
     border-left: 0;
+  }
+
+  /* Sized from the viewport so four numbers never crowd each other. */
+  .stat__value {
+    font-size: clamp(2.75rem, 5vw, 4.25rem);
   }
 }
 
@@ -1338,23 +1588,28 @@ svg {
 }
 
 .reviews__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-5);
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  display: grid;
+  gap: var(--space-6);
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .reviews__head .section-head {
   margin-bottom: 0;
 }
 
+.reviews__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
 .notice {
   display: flex;
+  flex: 1 1 18rem;
   align-items: flex-start;
   gap: 0.625rem;
-  margin-top: var(--space-5);
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
   background: var(--paper);
@@ -1369,76 +1624,156 @@ svg {
   color: var(--indigo-600);
 }
 
-.icon-btn {
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
+/* Rating summary: a perfect score and five empty bars. */
+.rating {
+  max-width: 24rem;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--paper);
-  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.rating__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+.rating__score {
   color: var(--ink);
-  cursor: pointer;
-  transition: transform 0.25s var(--ease-out);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
-.icon-btn[hidden] {
-  display: none;
+.rating__count {
+  margin-top: 0.375rem;
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+  line-height: 1.3;
 }
 
-.icon-btn .icon {
-  fill: currentColor;
-  stroke: none;
+.rating__rows {
+  display: grid;
+  gap: 0.375rem;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
 }
 
-.icon-btn[aria-pressed="true"] {
-  background: var(--navy-900);
-  color: var(--volt);
+.rating__row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) 0.75rem;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+  line-height: 1.4;
 }
 
-.icon-btn[aria-pressed="false"] .icon--play,
-.icon-btn[aria-pressed="true"] .icon--pause {
-  display: none;
+.rating__track {
+  height: 0.375rem;
+  border-radius: var(--radius-pill);
+  background: var(--indigo-50);
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
-@media (hover: hover) {
-  .icon-btn:hover {
-    transform: scale(1.06);
+.rating__zero {
+  color: var(--ink);
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (min-width: 64em) {
+  .reviews__head {
+    grid-template-columns: minmax(0, 1fr) 21rem;
+    align-items: end;
+    gap: var(--space-8);
   }
 }
 
-/* Default state, also used without JavaScript and under reduced motion:
-   two rows that scroll sideways by hand. */
+/* Without JavaScript, and under reduced motion on wide screens, the reviews
+   are a wrapped grid: every card is on the page and nothing scrolls. */
 .marquee {
   display: grid;
-  gap: var(--space-2);
-}
-
-.marquee__row {
-  overflow-x: auto;
-  padding-block: var(--space-2) var(--space-4);
-  scroll-padding-inline: var(--gutter);
-  scroll-snap-type: x proximity;
-  scrollbar-color: var(--indigo-200) transparent;
-  scrollbar-width: thin;
-}
-
-.marquee__row:focus-visible {
-  outline-offset: -2px;
-}
-
-.marquee__track {
-  display: flex;
-  width: max-content;
-  padding-inline-start: max(var(--gutter), (100vw - var(--container)) / 2);
+  gap: var(--space-5);
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
 }
 
 .marquee__set {
-  display: flex;
+  display: grid;
   gap: var(--space-5);
-  padding-inline-end: var(--space-5);
+}
+
+@media (min-width: 40em) {
+  .marquee__set {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64em) {
+  .marquee__set {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* With JavaScript the cards line up in two rows instead: when motion is
+   allowed at any width, and under reduced motion on small screens, where
+   the rows scroll sideways by hand. */
+@media (prefers-reduced-motion: no-preference), (max-width: 47.99em) {
+  .js .marquee {
+    /* Distance from the edge of the page to the page container. */
+    --edge: max(var(--gutter), (100% - var(--container)) / 2);
+    gap: var(--space-2);
+    width: auto;
+    margin-inline: 0;
+  }
+
+  .js .marquee__row {
+    overflow-x: auto;
+    padding-block: var(--space-2) var(--space-4);
+    scroll-padding-inline: var(--edge);
+    scroll-snap-type: x proximity;
+    scrollbar-color: var(--indigo-200) transparent;
+    scrollbar-width: thin;
+  }
+
+  .js .marquee__row:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .js .marquee__track {
+    display: flex;
+    width: max-content;
+    padding-inline: var(--edge) calc(var(--edge) - var(--space-5));
+  }
+
+  .js .marquee__set {
+    display: flex;
+    gap: var(--space-5);
+    padding-inline-end: var(--space-5);
+  }
+
+  .js .review {
+    flex: none;
+    width: min(22.5rem, 84vw);
+    scroll-snap-align: start;
+  }
+}
+
+/* Moving rows never show a scrollbar, so pausing them shifts nothing. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .marquee__row {
+    scrollbar-width: none;
+  }
+
+  .js .marquee__row::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Enhanced state: the script clones each set and the track loops. */
@@ -1449,35 +1784,27 @@ svg {
 
 .marquee.is-animated .marquee__row {
   overflow: hidden;
+  scroll-snap-type: none;
 }
 
 .marquee.is-animated .marquee__track {
-  padding-inline-start: 0;
-  animation: marquee var(--marquee-duration, 60s) linear infinite;
-  will-change: transform;
+  padding-inline: 0;
 }
 
-.marquee.is-animated .marquee__row--reverse .marquee__track {
-  animation-direction: reverse;
-}
-
-.marquee.is-animated:hover .marquee__track,
-.marquee.is-paused .marquee__track {
-  animation-play-state: paused;
+/* Paused from the button: the rows hold still and scroll by hand. */
+.marquee.is-animated.is-paused .marquee__row {
+  overflow-x: auto;
 }
 
 .review {
   display: flex;
-  flex: none;
   flex-direction: column;
   gap: var(--space-4);
-  width: min(22.5rem, 84vw);
   padding: var(--space-5);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--paper);
   box-shadow: var(--shadow-sm);
-  scroll-snap-align: start;
 }
 
 .review__top {
@@ -1519,6 +1846,13 @@ svg {
 .review__flag .icon {
   width: 1rem;
   height: 1rem;
+}
+
+.review__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .review__quote {
@@ -1599,13 +1933,14 @@ svg {
   position: relative;
   isolation: isolate;
   display: grid;
-  gap: clamp(2rem, 5vw, 4rem);
+  gap: clamp(1.75rem, 4vw, 2.5rem);
   overflow: hidden;
-  padding: clamp(1.5rem, 5vw, 4.5rem);
+  overflow: clip;
+  padding: clamp(1.5rem, 5vw, 4rem);
   border-radius: clamp(1.5rem, 3vw, 2.5rem);
   background:
-    radial-gradient(40rem 28rem at 96% 0%, rgba(90, 85, 242, 0.55), transparent 62%),
-    radial-gradient(30rem 22rem at 0% 100%, rgba(67, 56, 202, 0.42), transparent 62%),
+    radial-gradient(40rem 28rem at 96% 0%, rgba(90, 85, 242, 0.55), rgba(90, 85, 242, 0) 62%),
+    radial-gradient(30rem 22rem at 0% 100%, rgba(67, 56, 202, 0.42), rgba(67, 56, 202, 0) 62%),
     linear-gradient(160deg, var(--navy-800), var(--navy-950));
   color: var(--on-dark-soft);
 }
@@ -1623,100 +1958,60 @@ svg {
   mask-image: radial-gradient(50rem 30rem at 90% 10%, #000, transparent 75%);
 }
 
-.perks {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--line-dark);
+.pricing__stage > * {
+  min-width: 0;
 }
 
-.perk {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-}
-
-.perk .icon {
-  margin-top: 0.125rem;
-  color: var(--volt);
-}
-
-.perk__title {
-  display: block;
-  color: var(--on-dark);
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.perk__text {
-  display: block;
-  color: var(--on-dark-muted);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-}
-
-.pricing__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: var(--space-6);
-}
-
-.aside-note {
-  padding: var(--space-4) var(--space-5);
-  border-radius: var(--radius-lg);
-  background: var(--glass);
-  box-shadow: inset 0 0 0 1px var(--glass-edge);
-  color: var(--on-dark-soft);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-}
-
-.aside-note strong {
-  display: block;
-  color: var(--on-dark);
-  font-weight: 600;
+.pricing__stage .section-title {
+  font-size: clamp(1.75rem, 1rem + 2vw, 2.75rem);
 }
 
 .plan-wrap {
   position: relative;
 }
 
-/* Volt glow peeking out from behind the glass card. */
+/* Volt glow peeking out from behind the plan card. */
 .plan-wrap::before {
   content: "";
   position: absolute;
-  inset: 46% -10% -12% 40%;
+  inset: 40% -18% -20% 30%;
   z-index: -1;
   border-radius: 50%;
-  background: rgba(200, 255, 77, 0.2);
-  filter: blur(56px);
+  background: radial-gradient(closest-side, rgba(200, 255, 77, 0.24), rgba(200, 255, 77, 0));
 }
 
 .plan {
   padding: clamp(1.5rem, 3vw, 2.25rem);
   border-radius: clamp(1.25rem, 2.5vw, 1.75rem);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(180deg, rgba(42, 48, 122, 0.82), rgba(16, 20, 62, 0.86));
   box-shadow:
     inset 0 0 0 1px var(--glass-edge),
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
     0 32px 64px -24px rgba(2, 3, 15, 0.7);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
 }
 
 .plan__head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column-reverse;
+  align-items: flex-start;
   gap: var(--space-3);
 }
 
-.plan__name {
-  color: var(--on-dark);
-  font-size: var(--text-xl);
+.plan__kicker {
+  color: var(--on-dark-soft);
+  font-size: var(--text-xs);
   font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.plan__name {
+  margin-top: var(--space-1);
+  color: var(--on-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
@@ -1731,14 +2026,21 @@ svg {
 .plan__amount {
   color: var(--on-dark);
   font-size: clamp(2.75rem, 2rem + 3vw, 4rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
 }
 
 .plan__term {
   color: var(--on-dark-soft);
   font-size: 0.9375rem;
+}
+
+.plan__charged {
+  margin-top: var(--space-2);
+  color: var(--volt);
+  font-size: 0.9375rem;
+  font-weight: 600;
 }
 
 .plan__desc {
@@ -1757,10 +2059,16 @@ svg {
   text-transform: uppercase;
 }
 
+.plan__list-title + .plan__list + .plan__list-title {
+  margin-top: var(--space-4);
+  padding-top: 0;
+  border-top: 0;
+}
+
 .plan__list {
   display: grid;
   gap: 0.625rem;
-  margin-block: var(--space-4) var(--space-6);
+  margin-top: var(--space-3);
 }
 
 .plan__item {
@@ -1782,6 +2090,15 @@ svg {
   stroke-width: 2;
 }
 
+.plan__item--yes .icon {
+  background: var(--volt);
+  color: var(--navy-950);
+}
+
+.plan__action {
+  margin-top: var(--space-6);
+}
+
 .plan__fine {
   margin-top: var(--space-4);
   color: var(--on-dark-soft);
@@ -1790,9 +2107,161 @@ svg {
   text-align: center;
 }
 
+/* Nothing against something, as a real table. */
+.compare {
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+}
+
+.compare__table {
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  /* The two value columns size themselves around whole words. */
+  overflow-wrap: break-word;
+}
+
+.compare__table caption {
+  padding-bottom: var(--space-4);
+  color: var(--on-dark-soft);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.compare__table th,
+.compare__table td {
+  padding: 0.625rem 0 0.625rem var(--space-3);
+  border-top: 1px solid var(--line-dark);
+  font-weight: 400;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.compare__table th:first-child {
+  padding-left: 0;
+}
+
+.compare__table thead th {
+  padding-top: 0;
+  border-top: 0;
+  color: var(--on-dark-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+/* The label column takes what is left, and only it may break a long word. */
+.compare__table tbody th {
+  color: var(--on-dark);
+  overflow-wrap: anywhere;
+}
+
+.compare__table td {
+  color: var(--on-dark-muted);
+}
+
+/* The Nothing column is the one we are proud of. */
+.compare__table thead th:nth-child(2),
+.compare__table td:nth-child(2) {
+  color: var(--volt);
+  font-weight: 700;
+}
+
+.compare__source {
+  margin-top: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-dark);
+  color: var(--on-dark-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.perks {
+  display: grid;
+  gap: var(--space-4) var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line-dark);
+}
+
+.perk {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.perk > span {
+  min-width: 0;
+}
+
+.perk .icon {
+  margin-top: 0.125rem;
+  color: var(--volt);
+}
+
+.perk__title {
+  display: block;
+  color: var(--on-dark);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.perk__text {
+  display: block;
+  color: var(--on-dark-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 30em) {
+  .plan__head {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .compare__table {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (min-width: 40em) and (max-width: 56.24em) {
+  .perks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* The plan card comes straight after the heading in the markup, so on small
+   screens the buy button is never buried. On wide screens it moves right
+   and everything else stacks beside it. */
 @media (min-width: 56.25em) {
   .pricing__stage {
     grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+    grid-template-areas:
+      "head plan"
+      "perks plan"
+      "compare plan";
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .pricing__head {
+    grid-area: head;
+  }
+
+  .plan-wrap {
+    grid-area: plan;
+    align-self: center;
+  }
+
+  .perks {
+    grid-area: perks;
+  }
+
+  .compare {
+    grid-area: compare;
   }
 }
 
@@ -1806,10 +2275,30 @@ svg {
   gap: var(--space-2);
 }
 
+.faq__aside {
+  max-width: 24rem;
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.faq__aside strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+}
+
 .faq__item {
+  --faq-radius: 1rem;
+  overflow: hidden;
   overflow: clip;
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: var(--faq-radius);
   background: var(--paper);
 }
 
@@ -1828,7 +2317,7 @@ svg {
   gap: var(--space-4);
   min-height: 4rem;
   padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
-  border-radius: inherit;
+  border-radius: calc(var(--faq-radius) - 1px);
   color: var(--ink);
   font-size: var(--text-lg);
   font-weight: 600;
@@ -1847,6 +2336,10 @@ svg {
   outline-offset: -4px;
 }
 
+.faq__q > span {
+  min-width: 0;
+}
+
 .faq__icon {
   width: 2rem;
   height: 2rem;
@@ -1854,13 +2347,18 @@ svg {
   border-radius: 50%;
   background: var(--indigo-50);
   color: var(--indigo-600);
-  transition: transform 0.3s var(--ease-out);
 }
 
 .faq__item[open] .faq__icon {
   background: var(--navy-900);
   color: var(--volt);
   transform: rotate(45deg);
+}
+
+@media (hover: hover) {
+  .faq__item:not([open]) .faq__q:hover .faq__icon {
+    background: var(--indigo-200);
+  }
 }
 
 .faq__a {
@@ -1895,14 +2393,43 @@ svg {
 }
 
 .site-footer__tagline {
-  max-width: 21rem;
+  max-width: 23rem;
   margin-top: var(--space-4);
   font-size: 0.9375rem;
 }
 
+/* Awards we gave ourselves. */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 23rem;
+  margin-top: var(--space-5);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 1.75rem;
+  padding: 0 0.75rem 0 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+  color: var(--on-dark-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.badge .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--volt);
+}
+
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-6) var(--space-5);
 }
 
@@ -1918,16 +2445,19 @@ svg {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
+  padding-block: 0.375rem;
   border-radius: var(--radius-sm);
   font-size: 0.9375rem;
   line-height: 1.35;
   text-decoration: none;
 }
 
-.footer-col__link:hover {
-  color: var(--on-dark);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
+@media (hover: hover) {
+  .footer-col__link:hover {
+    color: var(--on-dark);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
 }
 
 .disclosure {
@@ -1940,6 +2470,12 @@ svg {
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 0 0 1px var(--glass-edge);
+  scroll-margin-top: var(--space-6);
+}
+
+/* A footer link points here. Arriving lights the box up. */
+.disclosure:target {
+  box-shadow: inset 0 0 0 2px var(--volt);
 }
 
 .disclosure__text {
@@ -1953,22 +2489,34 @@ svg {
   font-size: var(--text-xs);
 }
 
+.site-footer__legal + .site-footer__legal {
+  margin-top: var(--space-2);
+}
+
 /* Oversized outline wordmark that closes the page. Decorative only. */
 .site-footer__ghost {
   margin-top: var(--space-6);
   overflow: hidden;
   color: transparent;
   font-size: clamp(3.5rem, 17.5vw, 16rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 0.8;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
   text-align: center;
   white-space: nowrap;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 88%);
-  mask-image: linear-gradient(180deg, #000 0%, transparent 88%);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.36);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
   -webkit-user-select: none;
   user-select: none;
+}
+
+/* Two columns of links from 360px up. Every label is short enough to stay
+   on one line there. */
+@media (min-width: 22.5em) {
+  .site-footer__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 40em) {
@@ -2014,9 +2562,38 @@ svg {
 }
 
 .modal::backdrop {
-  background: rgba(4, 6, 26, 0.72);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(4, 6, 26, 0.8);
+}
+
+/* Stays in the corner while the dialog scrolls on short screens. */
+.modal__close {
+  --focus: var(--volt);
+  position: sticky;
+  top: var(--space-3);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: var(--space-3) var(--space-3) calc(-2.75rem - var(--space-3)) auto;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy-900);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), 0 6px 16px -6px rgba(2, 3, 15, 0.7);
+  color: var(--on-dark);
+  cursor: pointer;
+}
+
+/* Drawn inside the button, so it reads over the dark art and the white body. */
+.modal__close:focus-visible {
+  outline-offset: -4px;
+}
+
+@media (hover: hover) {
+  .modal__close:hover {
+    transform: rotate(90deg);
+  }
 }
 
 .modal__art {
@@ -2024,10 +2601,10 @@ svg {
   isolation: isolate;
   display: grid;
   place-items: center;
-  height: 9rem;
+  height: 8.5rem;
   overflow: hidden;
   background:
-    radial-gradient(18rem 10rem at 50% 110%, rgba(90, 85, 242, 0.7), transparent 70%),
+    radial-gradient(18rem 10rem at 50% 110%, rgba(90, 85, 242, 0.7), rgba(90, 85, 242, 0) 70%),
     linear-gradient(160deg, var(--navy-800), var(--navy-950));
 }
 
@@ -2056,37 +2633,21 @@ svg {
   left: var(--space-4);
 }
 
-.modal__close {
-  --focus: var(--volt);
-  position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 0 0 1px var(--glass-edge);
-  color: var(--on-dark);
-  cursor: pointer;
-  transition: transform 0.25s var(--ease-out);
-}
-
-@media (hover: hover) {
-  .modal__close:hover {
-    transform: rotate(90deg);
-  }
-}
-
 .modal__body {
-  padding: var(--space-5) var(--space-5) var(--space-5);
+  padding: var(--space-5);
+}
+
+.modal__kicker {
+  color: var(--indigo-600);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .modal__title {
+  margin-top: var(--space-2);
   color: var(--ink);
   font-size: clamp(1.375rem, 1.2rem + 1vw, 1.625rem);
   font-weight: 700;
@@ -2098,19 +2659,29 @@ svg {
   margin-top: var(--space-3);
 }
 
+.modal__facts-title {
+  margin-top: var(--space-5);
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* What did not happen. Tiles, never rows of amounts. */
 .modal__facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin-top: var(--space-2);
 }
 
 .modal__fact {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  gap: 0.125rem;
-  padding: var(--space-3);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  padding: 0.5rem var(--space-3);
   border-radius: var(--radius-md);
   background: var(--mist);
   box-shadow: inset 0 0 0 1px var(--line);
@@ -2119,15 +2690,14 @@ svg {
 .modal__fact dt {
   color: var(--ink-muted);
   font-size: var(--text-xs);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .modal__fact dd {
   color: var(--ink);
-  font-size: 1.125rem;
   font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }
 
 .modal__note {
@@ -2140,15 +2710,100 @@ svg {
   margin-top: var(--space-5);
 }
 
-@media (min-width: 30em) {
+/* From here up the dialog is at full width and the tiles sit two by two. */
+@media (min-width: 32em) {
   .modal__body {
     padding: var(--space-6);
+  }
+
+  .modal__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modal__fact {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 0.125rem;
+    padding: var(--space-3);
+  }
+
+  .modal__fact dd {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+}
+
+/* A blurred page behind the dialog, only where there is power to spare. */
+@media (min-width: 64em) {
+  .modal::backdrop {
+    background: rgba(4, 6, 26, 0.72);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+
+@media (max-height: 36em) {
+  .modal__art {
+    height: 6rem;
+  }
+
+  .modal__art svg {
+    width: 9rem;
+    height: 5.4rem;
+  }
+}
+
+/* Narrower than 320px. In practice that is a phone with its text size
+   doubled, because every breakpoint here is in em. The header keeps the
+   mark, the Parody tag and the menu (the hero button is one line further
+   down), big type follows the screen, and two-column layouts go to one. */
+@media (max-width: 19.99em) {
+  .site-header__buy {
+    display: none;
+  }
+
+  .hero__title {
+    font-size: 10.5vw;
+  }
+
+  .section-title,
+  .pricing__stage .section-title {
+    font-size: 9vw;
+  }
+
+  .press__list,
+  .stats__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .press__mark {
+    text-align: center;
+    white-space: normal;
+  }
+
+  .plan__amount {
+    font-size: 15vw;
+  }
+
+  .pill--outline {
+    height: auto;
+    min-height: 1.5rem;
+    padding-block: 0.125rem;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  .compare__table {
+    overflow-wrap: anywhere;
   }
 }
 
 /* 15 Motion --------------------------------------------------------------- */
 /* Every animation and transition on this page moves transform or opacity
-   and nothing else. All of it is switched off under reduced motion. */
+   and nothing else, and every one of them is declared inside the block
+   below. Under reduced motion none of it exists. */
 @keyframes rise {
   from {
     opacity: 0;
@@ -2249,6 +2904,35 @@ svg {
     transition: transform 0.2s var(--ease-out);
   }
 
+  .btn,
+  .btn__icon,
+  .chip-btn,
+  .modal__close {
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .btn::after {
+    transition: opacity 0.25s ease;
+  }
+
+  .site-header::before {
+    transition: opacity 0.3s ease;
+  }
+
+  .site-nav__link::after,
+  .menu-btn__bar,
+  .faq__icon {
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .card {
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .card::after {
+    transition: opacity 0.4s ease;
+  }
+
   /* Hero entrance. Scoped to .js so the page is complete without script. */
   .js .hero__copy > *,
   .js .hero__art {
@@ -2296,22 +2980,49 @@ svg {
     animation: bob 5s ease-in-out infinite alternate;
   }
 
+  /* The reviews loop. Hovering pauses every row, and so does the button,
+     which also hands the rows over for scrolling by hand. */
+  .marquee.is-animated .marquee__track {
+    animation: marquee var(--marquee-duration, 60s) linear var(--marquee-delay, 0s) infinite;
+    will-change: transform;
+  }
+
+  .marquee.is-animated .marquee__row--reverse .marquee__track {
+    animation-direction: reverse;
+  }
+
+  .marquee.is-animated.is-paused .marquee__row .marquee__track {
+    animation: none;
+    will-change: auto;
+  }
+
+  /* Any pointer that can hover, even where touch is the main input. */
+  @media (any-hover: hover) {
+    .marquee.is-animated:hover .marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
   /* Scroll reveal. The script adds .reveal-on only after it has marked
      everything already on screen, so nothing is hidden without it. */
   .reveal-on [data-reveal] {
     opacity: 0;
     transform: translate3d(0, 1.25rem, 0);
+  }
+
+  /* The transition lives on the revealed state, so hiding is instant and
+     only the reveal itself animates. */
+  .reveal-on [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
     transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
     transition-delay: calc(var(--i, 0) * 70ms);
   }
 
-  .reveal-on [data-reveal].is-in {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* Keyboard focus never lands on something that is still faded out. */
-  .reveal-on [data-reveal]:focus-within {
+  /* Keyboard focus and in-page links never land on something that is
+     still faded out or still on its way up. */
+  .reveal-on [data-reveal]:focus-within,
+  .reveal-on [data-reveal].is-instant {
     opacity: 1;
     transform: none;
     transition: none;
@@ -2356,13 +3067,124 @@ svg {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after,
-  ::backdrop {
-    animation: none !important;
-    transition: none !important;
+/* 16 Forced colors -------------------------------------------------------- */
+/* High contrast modes drop backgrounds and shadows. Anything that was only
+   an outline of shadow gets a real border, so buttons still look like
+   buttons and the dialog still has an edge. */
+@media (forced-colors: active) {
+  .btn,
+  .chip-btn,
+  .menu-btn,
+  .modal,
+  .modal__close,
+  .pill,
+  .announce,
+  .notice,
+  .badge,
+  .plan,
+  .compare,
+  .disclosure,
+  .modal__fact,
+  .rating__track {
+    border: 1px solid;
+  }
+
+  .chip-btn[aria-pressed="true"] {
+    border-width: 3px;
+  }
+
+  .site-header::before {
+    border-bottom-color: CanvasText;
+    background: Canvas;
+  }
+
+  /* The header tag is a pill only on wide screens. */
+  @media (min-width: 56.25em) {
+    .brand__tag {
+      border: 1px solid;
+    }
+  }
+
+  .menu-btn__bar {
+    background: ButtonText;
+    forced-color-adjust: none;
+  }
+
+  /* Small illustrations keep their own colors. */
+  .brand__mark,
+  .card__icon,
+  .stars,
+  .avatar,
+  .console,
+  .modal__art {
+    forced-color-adjust: none;
+  }
+
+  /* Icons take the text color of whatever they sit in. */
+  .perk .icon,
+  .badge .icon,
+  .notice .icon,
+  .plan__item .icon,
+  .faq__item .faq__icon {
+    background: none;
+    color: inherit;
+  }
+
+  .eyebrow::before {
+    display: none;
+  }
+
+  .site-footer__ghost {
+    -webkit-text-stroke-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
+
+/* 17 Print ---------------------------------------------------------------- */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .site-header {
+    position: static;
+  }
+
+  .skip-link,
+  .menu-btn,
+  .chip-btn,
+  .marquee__set[aria-hidden] {
+    display: none;
+  }
+
+  /* Paper gets everything at once: no reveal, no loop. */
+  .reveal-on [data-reveal],
+  .js .hero__copy > *,
+  .js .hero__art {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .marquee.is-animated {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee.is-animated .marquee__row {
+    overflow: visible;
+  }
+
+  .marquee.is-animated .marquee__track {
+    width: auto;
+    padding-inline: var(--gutter);
+    animation: none;
+  }
+
+  .marquee.is-animated .marquee__set {
+    flex-wrap: wrap;
+    padding: 0;
   }
 }
 </style>
@@ -2372,6 +3194,25 @@ svg {
 <div class="scroll-sentinel" aria-hidden="true"></div>
 
 <svg class="sprite" aria-hidden="true" width="0" height="0">
+  <defs>
+    <linearGradient id="c-window" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d2470"/>
+      <stop offset=".55" stop-color="#0d1240"/>
+      <stop offset="1" stop-color="#090c2c"/>
+    </linearGradient>
+    <linearGradient id="c-edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".08"/>
+    </linearGradient>
+    <linearGradient id="c-area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c8ff4d" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#c8ff4d" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="c-sheen" cx=".85" cy="0" r=".9">
+      <stop offset="0" stop-color="#8286ff" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#8286ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
   <symbol id="i-mark" viewBox="0 0 32 32">
     <rect width="32" height="32" rx="9" fill="#c8ff4d"/>
     <path d="M9.5 21.5 16 10l6.5 11.5" fill="none" stroke="#04061a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2387,6 +3228,7 @@ svg {
   <symbol id="i-arrow-right" viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></symbol>
   <symbol id="i-arrow-down" viewBox="0 0 20 20"><path d="M10 4v12M5 11l5 5 5-5"/></symbol>
   <symbol id="i-x" viewBox="0 0 20 20"><path d="M6 6l8 8M14 6l-8 8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 20 20"><path d="M5 10.5l3.3 3.3L15 6.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 20 20"><path d="M10 4.5v11M4.5 10h11"/></symbol>
   <symbol id="i-void" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" stroke-linecap="butt" stroke-dasharray="2.8 2.305"/></symbol>
   <symbol id="i-info" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5"/><path d="M10 9.2v4.3M10 6.3v.2"/></symbol>
@@ -2395,12 +3237,13 @@ svg {
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="#top">
+    <a class="brand" href="#top" aria-label="Apex Global Enterprise Facial Solutions LLC, parody site, back to top">
       <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-mark"/></svg>
       <span class="brand__text">
         <span class="brand__name">Apex Global</span>
-        <span class="brand__tag">Parody</span>
+        <span class="brand__legal">Enterprise Facial Solutions LLC</span>
       </span>
+      <span class="brand__tag">Parody</span>
     </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
       <span class="menu-btn__bar"></span>
@@ -2418,7 +3261,7 @@ svg {
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <div class="hero-wrap theme-dark">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero__grid">
@@ -2428,12 +3271,12 @@ svg {
             <span>Nothing 4.0: now with less</span>
           </p>
           <h1 class="hero__title" id="hero-title">We sell <em>literally nothing.</em> Now at enterprise scale.</h1>
-          <p class="hero__lead">Apex Global is the frictionless, cloud-native, AI-adjacent platform for absolutely nothing. One product. Zero features. $19.99. Nobody here knows what a facial solution is.</p>
+          <p class="hero__lead">Apex Global Enterprise Facial Solutions LLC is the frictionless, cloud-native, AI-adjacent platform for absolutely nothing. One product. Zero features. $19.99. Nobody here knows what the facial solutions are.</p>
           <div class="hero__actions">
             <button class="btn btn--volt btn--lg" type="button" data-buy aria-haspopup="dialog">Buy Now $19.99<svg class="icon btn__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
             <a class="btn btn--ghost btn--lg" href="#solutions">See the solutions<svg class="icon btn__icon btn__icon--down" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
           </div>
-          <p class="hero__fine">No credit card required. No credit card accepted, either.</p>
+          <p class="hero__fine">No credit card required. No credit card accepted, either. The button takes no money and asks for no details. <noscript>JavaScript is switched off, so the button will do even less than usual. Nothing is for sale either way.</noscript></p>
           <div class="trust">
             <span class="trust__faces" aria-hidden="true">
               <span class="trust__face"></span>
@@ -2441,31 +3284,12 @@ svg {
               <span class="trust__face"></span>
               <span class="trust__face">+0</span>
             </span>
-            <p class="trust__text"><strong>Trusted by 0 teams</strong> in 0 countries</p>
+            <p class="trust__text"><strong>Trusted by 0 teams</strong> <span class="trust__where">in 0 countries</span></p>
           </div>
         </div>
 
         <div class="hero__art">
-          <svg class="console" viewBox="0 0 540 500" role="img" aria-label="Illustration of a product dashboard that measures nothing: a flat line chart where every axis label reads zero, a row of empty bars and a gauge resting at zero.">
-            <defs>
-              <linearGradient id="c-window" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#1d2470"/>
-                <stop offset=".55" stop-color="#0d1240"/>
-                <stop offset="1" stop-color="#090c2c"/>
-              </linearGradient>
-              <linearGradient id="c-edge" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#fff" stop-opacity=".45"/>
-                <stop offset="1" stop-color="#fff" stop-opacity=".08"/>
-              </linearGradient>
-              <linearGradient id="c-area" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#c8ff4d" stop-opacity=".28"/>
-                <stop offset="1" stop-color="#c8ff4d" stop-opacity="0"/>
-              </linearGradient>
-              <radialGradient id="c-sheen" cx=".85" cy="0" r=".9">
-                <stop offset="0" stop-color="#8286ff" stop-opacity=".4"/>
-                <stop offset="1" stop-color="#8286ff" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
+          <svg class="console console--wide" viewBox="0 0 540 500" role="img" aria-label="Illustration of a product dashboard that measures nothing: a flat line chart where every axis label reads zero, a row of empty bars and a gauge resting at zero.">
             <g aria-hidden="true">
               <!-- Window -->
               <rect x="30.5" y="10.5" width="501" height="429" rx="18" fill="url(#c-window)" stroke="url(#c-edge)"/>
@@ -2479,22 +3303,22 @@ svg {
               <circle class="c-volt-line" cx="106" cy="37.5" r="1.7" stroke-width="1.6"/>
               <text class="c-title" x="120" y="36.5">Nothing Console</text>
               <text class="c-sub" x="262" y="36" fill="#fff">Overview</text>
-              <path class="c-volt-line" d="M262 53.5h46" stroke-width="2"/>
+              <path class="c-volt-line" d="M262 53.5h48" stroke-width="2"/>
               <text class="c-sub" x="328" y="36">Absence</text>
               <text class="c-sub" x="390" y="36">Void</text>
               <rect x="454.5" y="21.5" width="62" height="21" rx="10.5" fill="#c8ff4d" fill-opacity=".1" stroke="#c8ff4d" stroke-opacity=".4"/>
-              <circle class="c-volt console__live-dot" cx="468" cy="32" r="3.5"/>
-              <text class="c-live" x="478" y="35.8">LIVE</text>
+              <circle class="c-volt console__live-dot" cx="467" cy="32" r="3.5"/>
+              <text class="c-live" x="476" y="36">LIVE</text>
               <path d="M31 54.5h500" stroke="#fff" stroke-opacity=".1"/>
 
               <!-- Chart: nothing over time -->
               <rect class="c-panel" x="46.5" y="68.5" width="469" height="195" rx="12"/>
               <text class="c-title" x="62" y="93">Nothing over time</text>
               <text class="c-sub" x="62" y="110">Units shipped, trailing 12 months</text>
-              <path class="c-volt-line" d="M364 89h14" stroke-width="2.5"/>
-              <text class="c-sub" x="384" y="93">Actual</text>
-              <path class="c-volt-line" d="M430 89h14" stroke-width="2.5" stroke-dasharray="1 5"/>
-              <text class="c-sub" x="450" y="93">Forecast</text>
+              <path class="c-volt-line" d="M360 89h14" stroke-width="2.5"/>
+              <text class="c-sub" x="380" y="93">Actual</text>
+              <path class="c-volt-line" d="M428 89h14" stroke-width="2.5" stroke-dasharray="1 5"/>
+              <text class="c-sub" x="448" y="93">Forecast</text>
               <path class="c-grid" d="M86 126.5h414M86 162.5h414M86 198.5h414M86 234.5h414M400.5 126v108"/>
               <text class="c-axis" x="76" y="130" text-anchor="end">0</text>
               <text class="c-axis" x="76" y="166" text-anchor="end">0</text>
@@ -2544,11 +3368,74 @@ svg {
 
               <!-- Floating status toast -->
               <g class="console__toast">
-                <rect x="2.5" y="424.5" width="236" height="62" rx="15" fill="#171e62" stroke="#fff" stroke-opacity=".28"/>
+                <rect x="2.5" y="424.5" width="246" height="62" rx="15" fill="#171e62" stroke="#fff" stroke-opacity=".28"/>
                 <circle cx="33" cy="455.5" r="15" fill="#c8ff4d" fill-opacity=".14" stroke="#c8ff4d" stroke-opacity=".55"/>
                 <path class="c-volt-line" d="M26.5 455.5l4.5 4.5 8.5-9.5" stroke-width="2.4"/>
                 <text class="c-title" x="58" y="452">All systems nominal</text>
                 <text class="c-sub" x="58" y="470">Nothing detected in 0 regions</text>
+              </g>
+            </g>
+          </svg>
+
+          <svg class="console console--compact" viewBox="0 0 340 392" role="img" aria-label="Illustration of a product dashboard that measures nothing: a flat line chart where every axis label reads zero, and two tiles that show zero faces solved and a synergy level of zero percent.">
+            <g aria-hidden="true">
+              <!-- Window -->
+              <rect x="6.5" y="6.5" width="327" height="330" rx="16" fill="url(#c-window)" stroke="url(#c-edge)"/>
+              <rect x="7" y="7" width="326" height="329" rx="15.5" fill="url(#c-sheen)"/>
+
+              <!-- Title bar -->
+              <circle class="c-dot" cx="24" cy="28" r="4"/>
+              <circle class="c-dot" cx="37" cy="28" r="4"/>
+              <circle class="c-dot" cx="50" cy="28" r="4"/>
+              <path class="c-volt-line" d="M66 33.5l6-10.5 6 10.5" stroke-width="2.2"/>
+              <circle class="c-volt-line" cx="72" cy="33.5" r="1.7" stroke-width="1.6"/>
+              <text class="c-title" x="86" y="32.5">Nothing Console</text>
+              <rect x="254.5" y="17.5" width="66" height="21" rx="10.5" fill="#c8ff4d" fill-opacity=".1" stroke="#c8ff4d" stroke-opacity=".4"/>
+              <circle class="c-volt console__live-dot" cx="268" cy="28" r="3.5"/>
+              <text class="c-live" x="277" y="32.3">LIVE</text>
+              <path d="M7 49.5h326" stroke="#fff" stroke-opacity=".1"/>
+
+              <!-- Chart: nothing over time -->
+              <rect class="c-panel" x="18.5" y="60.5" width="303" height="172" rx="12"/>
+              <text class="c-title" x="32" y="84">Nothing over time</text>
+              <text class="c-sub" x="32" y="101">Units shipped, trailing 12 months</text>
+              <path class="c-grid" d="M54 122.5h254M54 146.5h254M54 170.5h254M54 194.5h254M236.5 122v72"/>
+              <text class="c-axis" x="44" y="126.5" text-anchor="end">0</text>
+              <text class="c-axis" x="44" y="150.5" text-anchor="end">0</text>
+              <text class="c-axis" x="44" y="174.5" text-anchor="end">0</text>
+              <text class="c-axis" x="44" y="198.5" text-anchor="end">0</text>
+              <text class="c-axis" x="86" y="217" text-anchor="middle">Q1</text>
+              <text class="c-axis" x="150" y="217" text-anchor="middle">Q2</text>
+              <text class="c-axis" x="214" y="217" text-anchor="middle">Q3</text>
+              <text class="c-axis" x="278" y="217" text-anchor="middle">Q4</text>
+              <rect x="54" y="170.5" width="182" height="24" fill="url(#c-area)"/>
+              <path d="M54 170.5h182" fill="none" stroke="#c8ff4d" stroke-opacity=".2" stroke-width="9" stroke-linecap="round"/>
+              <path class="c-volt-line" d="M54 170.5h182" stroke-width="2.5"/>
+              <path class="c-volt-line" d="M244 170.5h64" stroke-width="2.5" stroke-dasharray="1 7" stroke-opacity=".8"/>
+              <circle class="c-volt console__ping" cx="236" cy="170.5" r="5"/>
+              <circle class="c-volt" cx="236" cy="170.5" r="5" stroke="#0d1240" stroke-width="2"/>
+              <path d="M176 110.5h120a10 10 0 0 1 10 10v24a10 10 0 0 1-10 10h-53l-7 7.5-7-7.5h-53a10 10 0 0 1-10-10v-24a10 10 0 0 1 10-10z" fill="#070a26" stroke="#fff" stroke-opacity=".24"/>
+              <text class="c-label" x="179" y="128.5">TODAY</text>
+              <text class="c-tip" x="179" y="146">0 (all-time high)</text>
+
+              <!-- Stat tiles -->
+              <rect class="c-panel" x="18.5" y="242.5" width="146" height="80" rx="12"/>
+              <text class="c-label" x="32" y="265">FACES SOLVED</text>
+              <text class="c-value" x="31" y="303">0</text>
+              <path class="c-volt-line" d="M88 293h56" stroke-width="2"/>
+              <circle class="c-volt" cx="146" cy="293" r="3"/>
+              <rect class="c-panel" x="175.5" y="242.5" width="146" height="80" rx="12"/>
+              <text class="c-label" x="189" y="265">SYNERGY LEVEL</text>
+              <text class="c-value" x="188" y="303">0%</text>
+              <text class="c-sub" x="242" y="302">At rest</text>
+
+              <!-- Floating status toast -->
+              <g class="console__toast">
+                <rect x="30.5" y="334.5" width="254" height="52" rx="14" fill="#171e62" stroke="#fff" stroke-opacity=".28"/>
+                <circle cx="56" cy="360.5" r="13" fill="#c8ff4d" fill-opacity=".14" stroke="#c8ff4d" stroke-opacity=".55"/>
+                <path class="c-volt-line" d="M50.5 360.5l4 4 7.5-8.5" stroke-width="2.2"/>
+                <text class="c-title" x="78" y="357">All systems nominal</text>
+                <text class="c-sub" x="78" y="374">Nothing detected in 0 regions</text>
               </g>
             </g>
           </svg>
@@ -2568,6 +3455,7 @@ svg {
             <li class="press__mark press__mark--duo"><strong>Deck</strong> Quarterly</li>
             <li class="press__mark press__mark--tight">The Nothingburger</li>
           </ul>
+          <p class="press__note">None of these publications exist. Neither does our press coverage.</p>
         </div>
       </div>
     </section>
@@ -2597,7 +3485,7 @@ svg {
               <span class="card__index" aria-hidden="true">01</span>
             </div>
             <h3 class="card__title">Frictionless Delivery</h3>
-            <p class="card__body">Nothing arrives the moment you do not order it. No box, no courier and no tracking number, because there is nothing to track.</p>
+            <p class="card__body">No warehouse, no courier and no tracking number. Your nothing has already arrived wherever you happen to be standing. Please do not sign for it.</p>
             <dl class="card__meta"><dt>Delivery time</dt><dd>0 days</dd></dl>
           </div>
         </li>
@@ -2630,8 +3518,8 @@ svg {
               <span class="card__index" aria-hidden="true">03</span>
             </div>
             <h3 class="card__title">Infinite Scalability</h3>
-            <p class="card__body">One unit of nothing and ten million units of nothing have the same footprint. We stress-tested this by doing nothing, repeatedly.</p>
-            <dl class="card__meta"><dt>Max capacity</dt><dd>Unlimited nothing</dd></dl>
+            <p class="card__body">Scales from one seat of nothing to ten thousand seats of nothing with no added weight. Our load testing was unable to locate a load.</p>
+            <dl class="card__meta"><dt>Peak load</dt><dd>Not found</dd></dl>
           </div>
         </li>
         <li data-reveal>
@@ -2646,7 +3534,7 @@ svg {
               <span class="card__index" aria-hidden="true">04</span>
             </div>
             <h3 class="card__title">Security by Absence</h3>
-            <p class="card__body">We cannot leak what we never collect. This page has no accounts, no passwords and no fields to type in. There is nothing here to breach.</p>
+            <p class="card__body">We cannot leak what we never collect. There is no database, no login and no vault. Our threat model is a blank page, and it has held.</p>
             <dl class="card__meta"><dt>Data stored</dt><dd>None</dd></dl>
           </div>
         </li>
@@ -2665,7 +3553,7 @@ svg {
             </div>
             <h3 class="card__title">Seamless Integrations</h3>
             <p class="card__body">Works with every tool in your stack by not touching any of them. Setup takes zero steps. There is no step one.</p>
-            <dl class="card__meta"><dt>Connected apps</dt><dd>0 of all of them</dd></dl>
+            <dl class="card__meta"><dt>Integrations</dt><dd>0 of all of them</dd></dl>
           </div>
         </li>
         <li data-reveal>
@@ -2685,6 +3573,12 @@ svg {
           </div>
         </li>
       </ul>
+
+      <div class="blank" id="feature-list" data-reveal>
+        <p class="blank__label">Full feature list</p>
+        <p class="blank__box"><span class="visually-hidden">This space is intentionally blank.</span></p>
+        <p class="blank__note">That is the complete list. We read it twice.</p>
+      </div>
     </div>
   </section>
 
@@ -2703,9 +3597,9 @@ svg {
           <dd class="stat__note">The buy button is decorative.</dd>
         </div>
         <div class="stat" data-reveal>
-          <dt class="stat__label">Uptime of nothing</dt>
-          <dd class="stat__value">100%</dd>
-          <dd class="stat__note">It was never up, so it never went down.</dd>
+          <dt class="stat__label">Committees studying what a facial solution is</dt>
+          <dd class="stat__value">14</dd>
+          <dd class="stat__note">Three of them study the other eleven.</dd>
         </div>
         <div class="stat" data-reveal>
           <dt class="stat__label">Slides in our strategy deck</dt>
@@ -2713,7 +3607,7 @@ svg {
           <dd class="stat__note">None of them say what we do.</dd>
         </div>
       </dl>
-      <p class="stats__footnote">Figures audited by nobody. Past nothing is no guarantee of future nothing.</p>
+      <p class="stats__footnote">Every figure here is invented, except the zeros. The zeros are real. They are also unaudited, as there was nothing to audit.</p>
     </div>
   </section>
 
@@ -2722,19 +3616,39 @@ svg {
       <div class="section-head">
         <p class="eyebrow">Reviews</p>
         <h2 class="section-title" id="reviews-title">Rated 5.0 stars by 0 customers</h2>
-        <p class="notice" data-review-caption>
-          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-info"/></svg>
-          <span>These reviews are fictional. We wrote every one of them ourselves, for comedy, about a product that does not exist.</span>
-        </p>
+        <p class="section-lead">We asked our communications department for customer reviews. We have no communications department and no customers, so we wrote these ourselves.</p>
+        <div class="reviews__bar">
+          <p class="notice" data-review-caption>
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-info"/></svg>
+            <span>These reviews are fictional and were written for comedy. Every reviewer, job title and company is invented. Nobody has bought anything here, because nothing is for sale.</span>
+          </p>
+          <button class="chip-btn" type="button" data-marquee-toggle aria-pressed="false" aria-label="Pause the scrolling reviews" hidden>
+            <svg class="icon icon--pause" viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="3.5" width="4" height="13" rx="1.2"/><rect x="11.5" y="3.5" width="4" height="13" rx="1.2"/></svg>
+            <svg class="icon icon--play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.3v11.4a.8.8 0 0 0 1.2.7l9.2-5.7a.8.8 0 0 0 0-1.4L7.7 3.6a.8.8 0 0 0-1.2.7z"/></svg>
+            <span class="chip-btn__label" data-marquee-label>Pause</span>
+          </button>
+        </div>
       </div>
-      <button class="icon-btn" type="button" data-marquee-toggle aria-pressed="false" aria-label="Pause reviews" hidden>
-        <svg class="icon icon--pause" viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="3.5" width="4" height="13" rx="1.2"/><rect x="11.5" y="3.5" width="4" height="13" rx="1.2"/></svg>
-        <svg class="icon icon--play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.3v11.4a.8.8 0 0 0 1.2.7l9.2-5.7a.8.8 0 0 0 0-1.4L7.7 3.6a.8.8 0 0 0-1.2.7z"/></svg>
-      </button>
+      <div class="rating">
+        <div class="rating__top">
+          <p class="rating__score">5.0</p>
+          <div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
+            <p class="rating__count">0 ratings. All of them perfect.</p>
+          </div>
+        </div>
+        <ul class="rating__rows">
+          <li class="rating__row"><span>5 stars</span><span class="rating__track" aria-hidden="true"></span><span class="rating__zero">0</span></li>
+          <li class="rating__row"><span>4 stars</span><span class="rating__track" aria-hidden="true"></span><span class="rating__zero">0</span></li>
+          <li class="rating__row"><span>3 stars</span><span class="rating__track" aria-hidden="true"></span><span class="rating__zero">0</span></li>
+          <li class="rating__row"><span>2 stars</span><span class="rating__track" aria-hidden="true"></span><span class="rating__zero">0</span></li>
+          <li class="rating__row"><span>1 star</span><span class="rating__track" aria-hidden="true"></span><span class="rating__zero">0</span></li>
+        </ul>
+      </div>
     </div>
 
     <div class="marquee" data-marquee>
-      <div class="marquee__row" role="group" aria-label="Fictional reviews, row 1 of 2" tabindex="0">
+      <div class="marquee__row" role="group" aria-label="Fictional reviews, first half">
         <div class="marquee__track">
           <ul class="marquee__set">
             <li class="review" data-review>
@@ -2742,72 +3656,84 @@ svg {
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I ordered nothing on a Tuesday. By Wednesday, nothing had arrived. I have never seen a vendor hit a deadline so precisely.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--1" aria-hidden="true">TP</span>
-                <span><strong class="review__name">Todd Placeholder</strong><span class="review__role">VP of Synergy, Company Inc.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I ordered nothing on a Tuesday. By Wednesday, nothing had arrived. I have never seen a vendor hit a deadline so precisely.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--1" aria-hidden="true">BA</span>
+                  <span><strong class="review__name">Brent Actionitem</strong><span class="review__role">VP of Next Steps, Company Company Inc.</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>We rolled nothing out to 4,000 employees overnight. Nobody noticed. IT called it the smoothest launch in company history.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--2" aria-hidden="true">GS</span>
-                <span><strong class="review__name">Glenda Stakeholder</strong><span class="review__role">Chief Alignment Officer, Generic Holdings Group</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I gave nothing as a gift. The recipient said I should not have. I had not. We are both very pleased.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--2" aria-hidden="true">JO</span>
+                  <span><strong class="review__name">Jordan Offsite</strong><span class="review__role">Trust Fall Coordinator, Compulsory Fun Inc.</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I filmed an unboxing video. There was no box. There was no anything. It is my most honest work.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--3" aria-hidden="true">CD</span>
-                <span><strong class="review__name">Chad Deliverable</strong><span class="review__role">Head of Unboxing, Boxless Logistics Co.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>Unboxing nothing took four seconds. Three of them were me looking for it.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--3" aria-hidden="true">FL</span>
+                  <span><strong class="review__name">Firstname Lastname</strong><span class="review__role">Job Title, Company Name</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>Before Apex Global I had nothing. Now I have nothing, but it is enterprise grade and I can feel the difference.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--4" aria-hidden="true">PB</span>
-                <span><strong class="review__name">Pat Bandwidth</strong><span class="review__role">Senior Capacity Evangelist, Circle Back Partners</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>Before Apex Global I had nothing. Now I have nothing, but it is enterprise grade and I can feel the difference.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--4" aria-hidden="true">DB</span>
+                  <span><strong class="review__name">Dirk Bandwidth</strong><span class="review__role">Senior Capacity Evangelist, Let Us Take This Offline LLC</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>It integrated with our entire stack in zero seconds by not touching any of it. What I received was nothing. Our engineers wept with relief.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--5" aria-hidden="true">DR</span>
-                <span><strong class="review__name">Devon Roadmap</strong><span class="review__role">Director of Later, Q5 Planning Corp.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>We benchmarked this nothing against three competing nothings. The results were identical. This one had the nicest website.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--5" aria-hidden="true">DR</span>
+                  <span><strong class="review__name">Devon Roadmap</strong><span class="review__role">Director of Later, Fifth Quarter Planning Corp.</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I asked support what a facial solution is. There is no support, and I got nothing back. Clearest answer I have received all year.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--6" aria-hidden="true">MT</span>
-                <span><strong class="review__name">Morgan Touchbase</strong><span class="review__role">Regional Manager of Follow-Ups, Ping Industries</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I asked support what a facial solution is. There is no support, and I got nothing back. Clearest answer I have received all year.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--6" aria-hidden="true">MT</span>
+                  <span><strong class="review__name">Morgan Touchbase</strong><span class="review__role">Regional Manager of Follow-Ups, Per My Last Email Inc.</span></span>
+                </figcaption>
+              </figure>
             </li>
           </ul>
         </div>
       </div>
 
-      <div class="marquee__row marquee__row--reverse" role="group" aria-label="Fictional reviews, row 2 of 2" tabindex="0">
+      <div class="marquee__row marquee__row--reverse" role="group" aria-label="Fictional reviews, second half">
         <div class="marquee__track">
           <ul class="marquee__set">
             <li class="review" data-review>
@@ -2815,66 +3741,78 @@ svg {
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>ROI was immediate. I put in nothing and got nothing back. That is a 100 percent return of nothing.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--3" aria-hidden="true">LS</span>
-                <span><strong class="review__name">Linda Spreadsheet</strong><span class="review__role">Cell Manager, Rows and Columns LLC</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>ROI was immediate. I put in nothing and got nothing back. That is a 100 percent return of nothing.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--3" aria-hidden="true">LS</span>
+                  <span><strong class="review__name">Linda Spreadsheet</strong><span class="review__role">Cell Manager, Rows and Columns LLC</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I presented nothing to the board. They approved it unanimously, then asked what it was. I did not know either.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--5" aria-hidden="true">SB</span>
-                <span><strong class="review__name">Sam Boardroom</strong><span class="review__role">Chair of the Chair Committee, Long Table Corp.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I presented nothing to the board. They approved it unanimously, then asked what it was. I did not know either.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--5" aria-hidden="true">SB</span>
+                  <span><strong class="review__name">Sam Boardroom</strong><span class="review__role">Chair of the Chair Committee, Meeting About Meetings LLC</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I tried to return it. They said I already had nothing, so the return was complete. Fastest refund of nothing I have ever seen.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--1" aria-hidden="true">RP</span>
-                <span><strong class="review__name">Robin Pivot</strong><span class="review__role">Chief Rotation Officer, About-Face Ventures</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I tried to return it. I already had nothing, so the return was complete before I began. Fastest refund of nothing I have ever seen.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--1" aria-hidden="true">RP</span>
+                  <span><strong class="review__name">Robin Pivotsworth</strong><span class="review__role">Chief Rotation Officer, Pivot Pivot Pivot LLC</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>My nothing arrived with nothing missing. I counted twice.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--6" aria-hidden="true">GL</span>
-                <span><strong class="review__name">Gary Lowhangingfruit</strong><span class="review__role">Orchard Lead, Quick Wins Unlimited</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>My nothing arrived with nothing missing. I counted twice.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--6" aria-hidden="true">GL</span>
+                  <span><strong class="review__name">Gary Lowhangingfruit</strong><span class="review__role">Orchard Lead, Quick Wins Unlimited</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>Finally, a product that respects my time by not existing. I received nothing and I use it every day.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--4" aria-hidden="true">JO</span>
-                <span><strong class="review__name">Jordan Offsite</strong><span class="review__role">Trust Fall Coordinator, Mandatory Fun Inc.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>My order status has said nothing since the day I did not place it. That is the kind of consistency you cannot buy, and I did not.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--4" aria-hidden="true">PP</span>
+                  <span><strong class="review__name">Pat Pending</strong><span class="review__role">Chief Waiting Officer, To Be Determined LLC</span></span>
+                </figcaption>
+              </figure>
             </li>
             <li class="review" data-review>
               <div class="review__top">
                 <span class="stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 108 20" aria-hidden="true"><use href="#i-stars"/></svg></span>
                 <span class="review__flag"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-verified"/></svg>Verified fictional</span>
               </div>
-              <blockquote class="review__quote"><p>I am not a real person and this is not a real review. I received nothing, as did everyone else. Five stars.</p></blockquote>
-              <p class="review__by">
-                <span class="avatar avatar--2" aria-hidden="true">AF</span>
-                <span><strong class="review__name">Alex Fauxname</strong><span class="review__role">Imaginary Customer, Not A Real Company Corp.</span></span>
-              </p>
+              <figure class="review__body">
+                <blockquote class="review__quote"><p>I am not a real person and this is not a real review. I received nothing, as did everyone else. Five stars.</p></blockquote>
+                <figcaption class="review__by">
+                  <span class="avatar avatar--2" aria-hidden="true">AF</span>
+                  <span><strong class="review__name">Alex Fauxname</strong><span class="review__role">Imaginary Customer, Not A Real Company Corp.</span></span>
+                </figcaption>
+              </figure>
             </li>
           </ul>
         </div>
@@ -2882,52 +3820,98 @@ svg {
     </div>
   </section>
 
-  <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
+  <section class="section" id="pricing" aria-labelledby="pricing-title">
     <div class="container">
       <div class="pricing__stage theme-dark">
-        <div class="pricing__copy" data-reveal>
-          <div>
-            <p class="eyebrow">Pricing</p>
-            <h2 class="section-title" id="pricing-title">Simple, transparent pricing for nothing.</h2>
-            <p class="section-lead">One plan. No tiers, no seats, no contract and no product. The button takes no money.</p>
-            <ul class="perks">
-              <li class="perk">
-                <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
-                <span><strong class="perk__title">No hidden fees</strong><span class="perk__text">The visible fee is not collected either.</span></span>
-              </li>
-              <li class="perk">
-                <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
-                <span><strong class="perk__title">Cancel anytime</strong><span class="perk__text">There is nothing to cancel, so you already have.</span></span>
-              </li>
-              <li class="perk">
-                <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
-                <span><strong class="perk__title">Volume discounts</strong><span class="perk__text">Ten nothings cost the same as one. That cost is $0.00.</span></span>
-              </li>
-            </ul>
-          </div>
-          <p class="aside-note"><strong>Buying for the whole company?</strong> Everyone gets the same nothing. Your dedicated account manager does not exist.</p>
+        <div class="pricing__head" data-reveal>
+          <p class="eyebrow">Pricing</p>
+          <h2 class="section-title" id="pricing-title">Simple, transparent pricing for nothing.</h2>
+          <p class="section-lead">One plan. No tiers, no seats, no contract and no product. The button takes no money. Take all the time you need. Nothing is not going anywhere.</p>
         </div>
 
         <div class="plan-wrap" data-reveal>
           <div class="plan">
             <div class="plan__head">
-              <h3 class="plan__name">Nothing</h3>
-              <span class="pill pill--outline">Our only plan</span>
+              <div>
+                <p class="plan__kicker">The only plan</p>
+                <h3 class="plan__name">Nothing</h3>
+              </div>
+              <span class="pill pill--outline">Not a real offer</span>
             </div>
             <p class="plan__price"><span class="plan__amount">$19.99</span><span class="plan__term">per nothing, billed never</span></p>
+            <p class="plan__charged">Listed for effect. Actually charged: $0.00.</p>
             <p class="plan__desc">Everything you need to have nothing, and nothing you do not.</p>
+            <p class="plan__list-title">Included</p>
+            <ul class="plan__list">
+              <li class="plan__item plan__item--yes"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg>Nothing, in full</li>
+            </ul>
             <p class="plan__list-title">Not included</p>
             <ul class="plan__list">
               <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>A product of any kind</li>
               <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>Shipping, tracking or a box</li>
               <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>An account, a login or a password</li>
-              <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>Customer support</li>
+              <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>Batteries, although none are required</li>
               <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>Facial solutions, whatever those are</li>
               <li class="plan__item"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>Any way to actually pay</li>
             </ul>
-            <button class="btn btn--volt btn--lg btn--block" type="button" data-buy aria-haspopup="dialog">Buy Now $19.99</button>
-            <p class="plan__fine">Pressing the button charges $0.00 and collects no information. It opens a message that says so.</p>
+            <button class="btn btn--volt btn--lg btn--block plan__action" type="button" data-buy aria-haspopup="dialog">Buy Now $19.99</button>
+            <p class="plan__fine">Still $0.00 at checkout. There is no checkout. The button collects no information and opens a note that says so.</p>
           </div>
+        </div>
+
+        <ul class="perks" data-reveal>
+          <li class="perk">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
+            <span><strong class="perk__title">No hidden fees</strong><span class="perk__text">The visible fee is not collected either.</span></span>
+          </li>
+          <li class="perk">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
+            <span><strong class="perk__title">Cancel anytime</strong><span class="perk__text">There is nothing to cancel, so you already have.</span></span>
+          </li>
+          <li class="perk">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
+            <span><strong class="perk__title">Volume discounts</strong><span class="perk__text">Ten nothings cost the same as one. That cost is $0.00.</span></span>
+          </li>
+          <li class="perk">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>
+            <span><strong class="perk__title">Whole company welcome</strong><span class="perk__text">Everyone gets the same nothing. Your dedicated account manager does not exist.</span></span>
+          </li>
+        </ul>
+
+        <div class="compare" data-reveal>
+          <table class="compare__table">
+            <caption>Nothing compared with the leading alternative</caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Nothing</th>
+                <th scope="col">Something</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Units shipped</th>
+                <td>0</td>
+                <td>At least 1</td>
+              </tr>
+              <tr>
+                <th scope="row">Meetings needed</th>
+                <td>0</td>
+                <td>Weekly</td>
+              </tr>
+              <tr>
+                <th scope="row">Can be lost or broken</th>
+                <td>No</td>
+                <td>Often</td>
+              </tr>
+              <tr>
+                <th scope="row">Amount actually charged</th>
+                <td>$0.00</td>
+                <td>Varies</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="compare__source">Source: internal analysis of nothing, conducted by nobody, at no cost.</p>
         </div>
       </div>
     </div>
@@ -2939,39 +3923,40 @@ svg {
         <p class="eyebrow">FAQ</p>
         <h2 class="section-title" id="faq-title">Frequently unasked questions</h2>
         <p class="section-lead">There is no sales team to ask, so we wrote the answers down ourselves.</p>
+        <p class="faq__aside"><strong>Still have questions?</strong> So do we. Mostly about the facial solutions.</p>
       </div>
 
       <div data-reveal>
         <details class="faq__item" id="faq-buy" open>
-          <summary class="faq__q">Can I actually buy this?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-          <div class="faq__a"><p>No. Nothing is for sale. The Buy Now $19.99 button takes no money, asks for no details and collects no information. It opens a message confirming that nothing happened.</p></div>
+          <summary class="faq__q"><span>Can I actually buy this?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="faq__a"><p>No. Nothing is for sale. The Buy Now $19.99 button takes no money, asks for no details and collects no information. It opens a note confirming that nothing happened. There is no checkout, because there is no product.</p></div>
         </details>
         <details class="faq__item" id="faq-price">
-          <summary class="faq__q">What do I get for $19.99?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-          <div class="faq__a"><p>Nothing, and you do not pay the $19.99 either. It is the rare deal where both sides walk away with exactly what they started with.</p></div>
+          <summary class="faq__q"><span>What do I get for $19.99?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="faq__a"><p>Nothing, and you do not pay the $19.99 either. It is the rare deal where both sides walk away with exactly what they started with. The price is on the button because a button with no price looked unprofessional, and looking professional is the only thing we do.</p></div>
         </details>
         <details class="faq__item" id="faq-facial">
-          <summary class="faq__q">What is a facial solution?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <summary class="faq__q"><span>What is a facial solution?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
           <div class="faq__a"><p>Nobody here knows. It was already in the name when we got here. We asked Legal, Facilities and a man named Dale. The investigation is ongoing and unfunded.</p></div>
         </details>
         <details class="faq__item" id="faq-hiring">
-          <summary class="faq__q">Are you hiring?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-          <div class="faq__a"><p>No. There are no jobs, no open roles and no recruiters, because this is not a real company. Nobody will ever send you a job offer from Apex Global. If you receive one, it did not come from here and you should not trust it.</p></div>
+          <summary class="faq__q"><span>Are you hiring?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="faq__a"><p>No. There are no jobs, no open roles and no recruiters, because this is not a real company. Nobody will ever send you a job offer from Apex Global Enterprise Facial Solutions LLC. If you receive one, it did not come from here and you should not trust it.</p></div>
         </details>
         <details class="faq__item" id="faq-data">
-          <summary class="faq__q">Do you collect my data?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <summary class="faq__q"><span>Do you collect my data?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
           <div class="faq__a"><p>No. This page has no accounts, no cookies, no tracking and no fields to type in. We could not collect your information if we wanted to, and we lack the ambition.</p></div>
         </details>
         <details class="faq__item" id="faq-real">
-          <summary class="faq__q">Is Apex Global a real company?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-          <div class="faq__a"><p>No. Apex Global Enterprise Facial Solutions LLC is a parody. The logo is real only in the sense that you can see it.</p></div>
+          <summary class="faq__q"><span>Is Apex Global a real company?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="faq__a"><p>No. Apex Global Enterprise Facial Solutions LLC is a parody. The product, the reviews, the numbers and the publications are all invented for comedy. The logo is real only in the sense that you can see it.</p></div>
         </details>
         <details class="faq__item" id="faq-refund">
-          <summary class="faq__q">What is your refund policy?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-          <div class="faq__a"><p>Generous. Because $0.00 is charged, a refund of $0.00 is issued the instant you do not pay. Please allow zero business days.</p></div>
+          <summary class="faq__q"><span>What is your refund policy?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="faq__a"><p>Generous. Because $0.00 is charged, a refund of $0.00 is issued the instant you do not pay. Please allow zero business days. Returns are just as easy. Simply continue not having it.</p></div>
         </details>
         <details class="faq__item" id="faq-support">
-          <summary class="faq__q">How do I contact support?<svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <summary class="faq__q"><span>How do I contact support?</span><svg class="icon faq__icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-plus"/></svg></summary>
           <div class="faq__a"><p>You cannot. There is no email address, no phone number, no chat window and no office. This is by design, and also by budget.</p></div>
         </details>
       </div>
@@ -2983,36 +3968,44 @@ svg {
   <div class="container">
     <div class="site-footer__top">
       <div>
-        <a class="brand" href="#top">
+        <a class="brand" href="#top" aria-label="Apex Global Enterprise Facial Solutions LLC, back to top">
           <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-mark"/></svg>
-          <span class="brand__name">Apex Global</span>
+          <span class="brand__text">
+            <span class="brand__name">Apex Global</span>
+            <span class="brand__legal">Enterprise Facial Solutions LLC</span>
+          </span>
         </a>
-        <p class="site-footer__tagline">Nothing, delivered at enterprise scale. We are still looking into the facial solutions part.</p>
+        <p class="site-footer__tagline">Nothing, delivered at enterprise scale. Headquartered nowhere, with satellite offices in the surrounding area.</p>
+        <ul class="badges" aria-label="Awards we gave ourselves">
+          <li class="badge"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>Certified by Ourselves</li>
+          <li class="badge"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>Independently unverified</li>
+          <li class="badge"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-void"/></svg>Product free</li>
+        </ul>
       </div>
       <nav class="site-footer__nav" aria-label="Footer">
         <div>
           <h2 class="footer-col__title">Product</h2>
           <ul>
             <li><a class="footer-col__link" href="#pricing">Nothing</a></li>
-            <li><a class="footer-col__link" href="#pricing">Nothing Pro (also nothing)</a></li>
             <li><a class="footer-col__link" href="#solutions">Six names for it</a></li>
+            <li><a class="footer-col__link" href="#feature-list">Feature list (blank)</a></li>
             <li><a class="footer-col__link" href="#top">Dashboard of zeros</a></li>
           </ul>
         </div>
         <div>
           <h2 class="footer-col__title">Company</h2>
           <ul>
-            <li><a class="footer-col__link" href="#stats">Our numbers (all zero)</a></li>
-            <li><a class="footer-col__link" href="#faq-hiring">Careers (there are none)</a></li>
+            <li><a class="footer-col__link" href="#faq-hiring">Careers (none)</a></li>
             <li><a class="footer-col__link" href="#press">Press we did not get</a></li>
-            <li><a class="footer-col__link" href="#faq-real">Is this real? (no)</a></li>
+            <li><a class="footer-col__link" href="#stats">Numbers (unaudited)</a></li>
+            <li><a class="footer-col__link" href="#faq-facial">Facial solutions?</a></li>
           </ul>
         </div>
         <div>
           <h2 class="footer-col__title">Resources</h2>
           <ul>
-            <li><a class="footer-col__link" href="#reviews">Reviews (all made up)</a></li>
-            <li><a class="footer-col__link" href="#faq">Help center (the FAQ)</a></li>
+            <li><a class="footer-col__link" href="#reviews">Reviews (made up)</a></li>
+            <li><a class="footer-col__link" href="#faq">Help center (FAQ)</a></li>
             <li><a class="footer-col__link" href="#faq-refund">Refunds of $0.00</a></li>
             <li><a class="footer-col__link" href="#faq-support">Contact (you cannot)</a></li>
           </ul>
@@ -3020,26 +4013,27 @@ svg {
         <div>
           <h2 class="footer-col__title">Legal</h2>
           <ul>
-            <li><a class="footer-col__link" href="#faq-data">Privacy: we collect nothing</a></li>
+            <li><a class="footer-col__link" href="#faq-data">Privacy (no data)</a></li>
             <li><a class="footer-col__link" href="#faq-buy">Terms of nothing</a></li>
             <li><a class="footer-col__link" href="#disclosure">Parody disclosure</a></li>
-            <li><a class="footer-col__link" href="#faq-facial">Facial solutions inquiry</a></li>
+            <li><a class="footer-col__link" href="#faq-real">Is this real? (no)</a></li>
           </ul>
         </div>
       </nav>
     </div>
 
-    <div class="disclosure">
+    <div class="disclosure" id="disclosure">
       <span class="pill pill--volt">Parody</span>
-      <p class="disclosure__text" id="disclosure" data-disclosure>Parody site. Apex Global Enterprise Facial Solutions LLC is not a real company. Nothing is for sale, no payments are taken, no information is collected, and nobody is being hired.</p>
+      <p class="disclosure__text" data-disclosure>Parody site. Apex Global Enterprise Facial Solutions LLC is not a real company. Nothing is for sale, no payments are taken, no information is collected, and nobody is being hired.</p>
     </div>
     <p class="site-footer__legal">Copyright 2026 Apex Global Enterprise Facial Solutions LLC. No rights reserved. There is nothing to reserve them for.</p>
+    <p class="site-footer__legal">AGEFS is not listed on any exchange, by mutual agreement with every exchange. Share price: not applicable. Dividend: nothing, paid quarterly.</p>
   </div>
   <p class="site-footer__ghost" aria-hidden="true">NOTHING</p>
 </footer>
 
 <dialog class="modal" id="buy-dialog" aria-labelledby="buy-dialog-title" aria-describedby="buy-dialog-desc">
-  <button class="modal__close" type="button" data-modal-close aria-label="Close dialog">
+  <button class="modal__close" type="button" data-modal-close aria-label="Close this notice">
     <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>
   </button>
   <div class="modal__art">
@@ -3060,14 +4054,17 @@ svg {
     </svg>
   </div>
   <div class="modal__body">
-    <h2 class="modal__title" id="buy-dialog-title">You bought nothing. You were charged $0.00.</h2>
-    <p class="modal__desc" id="buy-dialog-desc">Nothing was purchased, no payment details or personal information were asked for or collected, and this is a parody site with nothing for sale.</p>
+    <p class="modal__kicker">Notice of no transaction</p>
+    <h2 class="modal__title" id="buy-dialog-title">No purchase was made. You were charged $0.00.</h2>
+    <p class="modal__desc" id="buy-dialog-desc">No payment details or personal information were asked for or collected, because this is a parody site with nothing for sale.</p>
+    <p class="modal__facts-title">What did not happen</p>
     <dl class="modal__facts">
       <div class="modal__fact"><dt>Charged</dt><dd>$0.00</dd></div>
-      <div class="modal__fact"><dt>Shipped</dt><dd>Nothing</dd></div>
+      <div class="modal__fact"><dt>Shipped</dt><dd>0 items</dd></div>
       <div class="modal__fact"><dt>Info collected</dt><dd>None</dd></div>
+      <div class="modal__fact"><dt>Facial solutions explained</dt><dd>None</dd></div>
     </dl>
-    <p class="modal__note">Thank you for your interest in nothing. You may keep your $19.99.</p>
+    <p class="modal__note">You already had nothing. Now you have it on purpose. No further action is required, or possible.</p>
     <button class="btn btn--ink btn--block modal__action" type="button" data-modal-close>Keep my $19.99</button>
   </div>
 </dialog>
@@ -3078,57 +4075,98 @@ svg {
 
   var doc = document;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var hasObserver = 'IntersectionObserver' in window;
-
-  /* Header: small-screen menu ------------------------------------------- */
   var header = doc.querySelector('.site-header');
   var menuButton = header.querySelector('.menu-btn');
+  var dialog = doc.getElementById('buy-dialog');
+
+  /* Older engines only know addListener on a media query. */
+  function onChange(query, handler) {
+    if (query.addEventListener) {
+      query.addEventListener('change', handler);
+    } else {
+      query.addListener(handler);
+    }
+  }
 
   function setMenu(open) {
     header.classList.toggle('is-menu-open', open);
     menuButton.setAttribute('aria-expanded', String(open));
   }
 
-  menuButton.addEventListener('click', function () {
-    setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
-  });
-
-  doc.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && header.classList.contains('is-menu-open')) {
-      setMenu(false);
-      menuButton.focus();
-    }
-  });
-
-  window.matchMedia('(min-width: 56.25em)').addEventListener('change', function () {
-    setMenu(false);
-  });
-
-  /* Buy dialog: the punchline -------------------------------------------- */
-  var dialog = doc.getElementById('buy-dialog');
+  /* Buy dialog: the punchline --------------------------------------------- */
+  /* Wired before everything else, so the honest note still opens if one of
+     the optional extras further down ever fails. */
   var opener = null;
-  var closeTimer = 0;
+  var pressedOutside = false;
+
+  function outsideDialog(point) {
+    var box = dialog.getBoundingClientRect();
+    return point.clientX < box.left || point.clientX > box.right ||
+      point.clientY < box.top || point.clientY > box.bottom;
+  }
+
+  /* The page behind an open dialog stays where it is. Nothing is set on the
+     html or body element: while the dialog is open, a wheel or a swipe that
+     the dialog cannot use itself is simply not passed on. */
+  function dialogCanScroll(delta) {
+    if (delta < 0) {
+      return dialog.scrollTop > 0;
+    }
+    return dialog.scrollTop + dialog.clientHeight < dialog.scrollHeight - 1;
+  }
+
+  function holdWheel(event) {
+    if (!event.ctrlKey && (outsideDialog(event) || !dialogCanScroll(event.deltaY))) {
+      event.preventDefault();
+    }
+  }
+
+  function holdTouch(event) {
+    var fits = dialog.scrollHeight <= dialog.clientHeight + 1;
+    if (event.cancelable && event.touches.length === 1 && (fits || outsideDialog(event.touches[0]))) {
+      event.preventDefault();
+    }
+  }
+
+  function holdPage(hold) {
+    var method = hold ? 'addEventListener' : 'removeEventListener';
+    doc[method]('wheel', holdWheel, { passive: false });
+    doc[method]('touchmove', holdTouch, { passive: false });
+  }
 
   function openDialog(button) {
+    if (dialog.open || !dialog.showModal) {
+      return;
+    }
     opener = button;
     setMenu(false);
-    if (!dialog.open) {
-      dialog.showModal();
-    }
+    dialog.showModal();
+    dialog.scrollTop = 0;
+    holdPage(true);
   }
 
   function closeDialog() {
     if (!dialog.open || dialog.classList.contains('is-closing')) {
       return;
     }
-    if (reduceMotion.matches) {
+    dialog.classList.add('is-closing');
+    /* Wait for the exit animation, whatever its length. Under reduced
+       motion there is none, so the dialog closes at once. */
+    var pending = dialog.getAnimations ? dialog.getAnimations() : [];
+    var left = pending.length;
+    if (!left) {
       dialog.close();
       return;
     }
-    dialog.classList.add('is-closing');
-    closeTimer = window.setTimeout(function () {
-      dialog.close();
-    }, 150);
+    pending.forEach(function (animation) {
+      function done() {
+        left -= 1;
+        if (!left && dialog.open) {
+          dialog.close();
+        }
+      }
+      animation.finished.then(done, done);
+    });
   }
 
   dialog.addEventListener('cancel', function (event) {
@@ -3137,16 +4175,22 @@ svg {
   });
 
   dialog.addEventListener('close', function () {
-    window.clearTimeout(closeTimer);
     dialog.classList.remove('is-closing');
+    holdPage(false);
     if (opener) {
       opener.focus();
     }
   });
 
+  /* A press and a release that both land on the backdrop close the dialog.
+     Dragging out of it, for example while selecting text, does not. */
+  dialog.addEventListener('pointerdown', function (event) {
+    pressedOutside = event.target === dialog && outsideDialog(event);
+  });
+
   dialog.addEventListener('click', function (event) {
-    /* A click that lands on the dialog element itself is a backdrop click. */
-    if (event.target === dialog || event.target.closest('[data-modal-close]')) {
+    var onBackdrop = pressedOutside && event.target === dialog && outsideDialog(event);
+    if (onBackdrop || event.target.closest('[data-modal-close]')) {
       closeDialog();
     }
   });
@@ -3167,15 +4211,27 @@ svg {
     }
   });
 
-  /* FAQ: a link that points at a question also opens it ------------------- */
-  function openQuestion(id) {
+  /* A link to something on this page: open it if it is a question, and
+     show it at once if it has not been revealed yet. */
+  function showTarget(id) {
     var target = id ? doc.getElementById(id) : null;
-    if (target && target.tagName === 'DETAILS') {
+    if (!target) {
+      return;
+    }
+    if (target.tagName === 'DETAILS') {
       target.open = true;
+    }
+    var block = target.closest('[data-reveal]');
+    if (block) {
+      block.classList.add('is-in', 'is-instant');
     }
   }
 
-  openQuestion(window.location.hash.slice(1));
+  showTarget(window.location.hash.slice(1));
+
+  window.addEventListener('hashchange', function () {
+    showTarget(window.location.hash.slice(1));
+  });
 
   /* One delegated click handler for the whole page ------------------------ */
   doc.addEventListener('click', function (event) {
@@ -3186,25 +4242,92 @@ svg {
     }
     var link = event.target.closest('a[href^="#"]');
     if (link) {
-      openQuestion(link.getAttribute('href').slice(1));
+      showTarget(link.getAttribute('href').slice(1));
     }
     if (link || !event.target.closest('.site-header')) {
       setMenu(false);
     }
   });
 
+  /* Header: small-screen menu --------------------------------------------- */
+  menuButton.addEventListener('click', function () {
+    setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
+  });
+
+  doc.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && header.classList.contains('is-menu-open')) {
+      setMenu(false);
+      menuButton.focus();
+    }
+  });
+
+  onChange(window.matchMedia('(min-width: 56.25em)'), function () {
+    setMenu(false);
+  });
+
   /* Reviews marquee ------------------------------------------------------- */
   var marquee = doc.querySelector('[data-marquee]');
   var marqueeToggle = doc.querySelector('[data-marquee-toggle]');
-  var marqueeRows = marquee.querySelectorAll('.marquee__row');
+  var marqueeLabel = marqueeToggle.querySelector('[data-marquee-label]');
+  var marqueeRows = Array.prototype.slice.call(marquee.querySelectorAll('.marquee__row'));
   var marqueeSpeeds = [44, 36]; /* pixels per second, one per row */
+
+  function trackOf(row) {
+    return row.querySelector('.marquee__track');
+  }
+
+  function setWidthOf(row) {
+    return row.querySelector('.marquee__set').getBoundingClientRect().width;
+  }
+
+  /* A row that scrolls by hand can be reached and scrolled from the keyboard.
+     A row that does not scroll is not a tab stop. */
+  function syncRows() {
+    marqueeRows.forEach(function (row) {
+      var scrolls = getComputedStyle(row).overflowX === 'auto' && row.scrollWidth > row.clientWidth + 1;
+      if (scrolls) {
+        row.setAttribute('tabindex', '0');
+      } else {
+        row.removeAttribute('tabindex');
+      }
+    });
+  }
+
+  function setPaused(paused) {
+    /* Read where each row is before anything changes. */
+    var offsets = marqueeRows.map(function (row) {
+      return paused ? -new DOMMatrixReadOnly(getComputedStyle(trackOf(row)).transform).m41 : row.scrollLeft;
+    });
+    marquee.classList.toggle('is-paused', paused);
+    marqueeRows.forEach(function (row, index) {
+      var track = trackOf(row);
+      if (paused) {
+        /* The frozen position becomes a scroll position. */
+        row.scrollLeft = offsets[index];
+        return;
+      }
+      /* The scroll position becomes a head start for the loop. */
+      var setWidth = setWidthOf(row);
+      var progress = (offsets[index] % setWidth) / setWidth;
+      if (row.classList.contains('marquee__row--reverse')) {
+        progress = 1 - progress;
+      }
+      track.style.setProperty('--marquee-delay', (-progress * parseFloat(track.style.getPropertyValue('--marquee-duration'))) + 's');
+      row.scrollLeft = 0;
+    });
+    /* The visible word and the full name change together. */
+    marqueeToggle.setAttribute('aria-pressed', String(paused));
+    marqueeToggle.setAttribute('aria-label', paused ? 'Play the reviews, which are paused' : 'Pause the scrolling reviews');
+    marqueeLabel.textContent = paused ? 'Play' : 'Pause';
+    syncRows();
+  }
 
   function startMarquee() {
     var widest = Math.max(window.innerWidth, window.screen.width);
     marqueeRows.forEach(function (row, index) {
-      var track = row.querySelector('.marquee__track');
+      var track = trackOf(row);
       var set = track.querySelector('.marquee__set');
-      var setWidth = set.getBoundingClientRect().width;
+      var setWidth = setWidthOf(row);
       /* Enough copies that the track never runs dry, however wide the screen. */
       var copies = Math.max(2, Math.ceil(widest / setWidth) + 1);
       for (var n = 1; n < copies; n += 1) {
@@ -3215,34 +4338,38 @@ svg {
       }
       track.style.setProperty('--marquee-shift', (-100 / copies) + '%');
       track.style.setProperty('--marquee-duration', Math.round(setWidth / marqueeSpeeds[index]) + 's');
-      row.removeAttribute('tabindex');
     });
     marquee.classList.add('is-animated');
     marqueeToggle.hidden = false;
+    syncRows();
   }
 
   function stopMarquee() {
+    if (marquee.classList.contains('is-paused')) {
+      setPaused(false);
+    }
     marqueeRows.forEach(function (row) {
       row.querySelectorAll('.marquee__set[aria-hidden]').forEach(function (clone) {
         clone.remove();
       });
-      row.setAttribute('tabindex', '0');
+      trackOf(row).removeAttribute('style');
     });
-    marquee.classList.remove('is-animated', 'is-paused');
+    marquee.classList.remove('is-animated');
     marqueeToggle.hidden = true;
-    marqueeToggle.setAttribute('aria-pressed', 'false');
+    syncRows();
   }
 
   marqueeToggle.addEventListener('click', function () {
-    var paused = marquee.classList.toggle('is-paused');
-    marqueeToggle.setAttribute('aria-pressed', String(paused));
+    setPaused(!marquee.classList.contains('is-paused'));
   });
 
-  if (!reduceMotion.matches) {
+  if (reduceMotion.matches) {
+    syncRows();
+  } else {
     startMarquee();
   }
 
-  reduceMotion.addEventListener('change', function (event) {
+  onChange(reduceMotion, function (event) {
     if (event.matches) {
       stopMarquee();
     } else {
@@ -3250,59 +4377,67 @@ svg {
     }
   });
 
+  /* Under reduced motion the rows scroll on small screens and sit in a grid
+     on wide ones, so the tab stops follow the layout. */
+  onChange(window.matchMedia('(min-width: 48em)'), syncRows);
+
   /* Scroll-driven polish, all optional ------------------------------------ */
-  if (hasObserver) {
-    /* Header goes clear only while the very top of the page is in view. */
-    new IntersectionObserver(function (entries) {
-      header.classList.toggle('is-at-top', entries[entries.length - 1].isIntersecting);
-    }).observe(doc.querySelector('.scroll-sentinel'));
-
-    /* Mark the navigation link for the section crossing mid-screen. */
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        var link = header.querySelector('.site-nav__link[href="#' + entry.target.id + '"]');
-        if (entry.isIntersecting) {
-          link.setAttribute('aria-current', 'location');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    }, { rootMargin: '-45% 0px -55% 0px' });
-
-    header.querySelectorAll('.site-nav__link').forEach(function (link) {
-      spy.observe(doc.getElementById(link.getAttribute('href').slice(1)));
-    });
+  if (!('IntersectionObserver' in window)) {
+    return;
   }
 
-  if (hasObserver && !reduceMotion.matches) {
-    /* Reveal on scroll. Anything already on screen is left alone, and the
-       hiding style only switches on once the observers are in place. */
-    var revealer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
-          entry.target.classList.add('is-in');
-          revealer.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
+  /* Header goes clear only while the very top of the page is in view. */
+  new IntersectionObserver(function (entries) {
+    header.classList.toggle('is-at-top', entries[entries.length - 1].isIntersecting);
+  }).observe(doc.querySelector('.scroll-sentinel'));
 
-    doc.querySelectorAll('[data-reveal]').forEach(function (el) {
-      if (el.getBoundingClientRect().top < window.innerHeight) {
-        el.classList.add('is-in');
+  /* Mark the navigation link for the section crossing mid-screen. */
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var link = header.querySelector('.site-nav__link[href="#' + entry.target.id + '"]');
+      if (entry.isIntersecting) {
+        link.setAttribute('aria-current', 'location');
       } else {
-        revealer.observe(el);
+        link.removeAttribute('aria-current');
       }
     });
+  }, { rootMargin: '-45% 0px -55% 0px' });
 
-    doc.addEventListener('focusin', function (event) {
-      var block = event.target.closest('[data-reveal]');
-      if (block) {
-        block.classList.add('is-in');
-      }
-    });
+  header.querySelectorAll('.site-nav__link').forEach(function (link) {
+    spy.observe(doc.getElementById(link.getAttribute('href').slice(1)));
+  });
 
-    doc.documentElement.classList.add('reveal-on');
+  if (reduceMotion.matches) {
+    return;
   }
+
+  /* Reveal on scroll. Anything already on screen is left alone, and the
+     hiding style only switches on once the observer is in place. */
+  var revealer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
+        entry.target.classList.add('is-in');
+        revealer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+
+  doc.querySelectorAll('[data-reveal]').forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.classList.add('is-in');
+    } else {
+      revealer.observe(el);
+    }
+  });
+
+  doc.addEventListener('focusin', function (event) {
+    var block = event.target.closest('[data-reveal]');
+    if (block) {
+      block.classList.add('is-in');
+    }
+  });
+
+  doc.documentElement.classList.add('reveal-on');
 })();
 </script>
 </body>
