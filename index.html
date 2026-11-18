@@ -20,8 +20,9 @@
    01 Tokens       06 Hero           11 Pricing
    02 Base         07 Press strip    12 FAQ
    03 Utilities    08 Solutions      13 Footer
-   04 Buttons      09 Stats band     14 Buy dialog
-   05 Header       10 Reviews        15 Motion
+   04 Buttons      08b Products      14 Buy dialog
+   05 Header       09 Stats band     15 Motion
+                   10 Reviews
    ========================================================================== */
 
 /* 01 Tokens --------------------------------------------------------------- */
@@ -688,8 +689,14 @@ svg {
     display: none;
   }
 
+  /* On short landscape screens the sheet scrolls, so every link stays
+     reachable. */
   .js .is-menu-open .site-nav {
     display: block;
+    max-height: calc(100vh - var(--header-h));
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   /* Without JavaScript the links simply sit on a second row. */
@@ -725,6 +732,23 @@ svg {
   }
 }
 
+/* Five links leave no room to spare just above the menu breakpoint, so the
+   links tighten there and the brand keeps its full width. */
+@media (min-width: 56.25em) and (max-width: 62.49em) {
+  .site-nav {
+    margin-left: 0;
+  }
+
+  .site-nav__link {
+    padding-inline: 0.625rem;
+  }
+
+  .site-nav__link::after {
+    right: 0.625rem;
+    left: 0.625rem;
+  }
+}
+
 /* Below 360px the company name steps aside for the buy button. The Parody
    tag stays on screen at every width. */
 @media (max-width: 22.49em) {
@@ -747,6 +771,13 @@ svg {
 
   .site-header__buy {
     padding: 0 0.625rem;
+  }
+
+  /* Without JavaScript the five links share one row. Tighter links keep
+     that row inside the screen, and each link stays 44px tall. */
+  html:not(.js) .site-nav__link {
+    padding: 0 0.125rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -1348,6 +1379,253 @@ svg {
 
   .solutions__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 08b Products ------------------------------------------------------------ */
+/* The Solutions cards again, each with a product image that is still on its
+   way. The image area holds no image at all: an inline ring drawn one dash
+   short of a circle, which turns forever, and a caption. */
+.products__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+/* Source order is name, tag, line, image, then price and button, so a screen
+   reader meets the name first and the caption after the line. On screen the
+   image comes first, then the tag. */
+.product__media {
+  order: -2;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  /* 16:9 in the single column and 4:3 in the grid, and taller whenever the
+     ring and caption need it (on phones they always do). The zero minimum
+     width stops that extra height from widening the tile through the ratio. */
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  padding: var(--space-5) var(--space-4);
+  /* Transparent edges become real ones in forced-colors mode. */
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  background:
+    radial-gradient(60% 50% at 50% 36%, rgba(200, 255, 77, 0.1), transparent 70%),
+    linear-gradient(145deg, var(--navy-700), var(--navy-950));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* The dialog art's fine grid, fading out toward the edges. */
+.product__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2rem 2rem;
+  -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+  mask-image: radial-gradient(closest-side, #000, transparent);
+}
+
+/* 7rem, unless very large text leaves the tile narrower than that. */
+.product__ring {
+  width: min(7rem, 100%);
+  height: auto;
+  aspect-ratio: 1;
+}
+
+/* Room for three lines, so a caption that changes its mind never moves the
+   ring. The caption that comes next also sits in the same cell, invisibly,
+   so the swap keeps the tile's height at any text size. */
+.product__caption {
+  display: grid;
+  justify-items: center;
+  max-width: 28ch;
+  min-height: 4.2em;
+  color: var(--on-dark-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.product__caption-text,
+.product__caption[data-caption-next]::after {
+  grid-area: 1 / 1;
+}
+
+.product__caption[data-caption-next]::after {
+  content: attr(data-caption-next);
+  visibility: hidden;
+}
+
+/* A quiet ink outline, so the volt Parody pill stays the only one like it.
+   With enlarged text the tag wraps inside the card, and a long word may
+   break too. */
+.product__tag {
+  order: -1;
+  align-self: flex-start;
+  justify-self: start;
+  max-width: 100%;
+  height: auto;
+  min-height: 1.5rem;
+  margin: var(--space-5) 0 calc(-1 * var(--space-3));
+  padding-block: 0.1875rem;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(11, 16, 48, 0.16);
+  color: var(--ink-soft);
+}
+
+/* With enlarged text the label takes a second line instead of leaving the
+   card. */
+.product__cart {
+  max-width: 100%;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
+}
+
+.product__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px dashed rgba(11, 16, 48, 0.16);
+}
+
+.product__price {
+  color: var(--ink);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* Like the reviews: a pause button, shown only while the rings may move.
+   Paused, the rings stop where they are. They still never finish. */
+.products__pause {
+  margin-top: var(--space-5);
+}
+
+.products.is-paused .product__spinner {
+  animation-play-state: paused;
+}
+
+/* Only rendered with JavaScript off. */
+.products__noscript {
+  max-width: 38rem;
+  margin-bottom: var(--space-6);
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+/* Where subgrid is supported, the image, tag, name, line and price row of
+   every card share tracks with the cards beside it, so a tag on one card
+   keeps every name, line and price row in that row level. The row gap moves
+   onto the items, so a row without a tag keeps no empty gutter. */
+@supports (grid-template-rows: subgrid) {
+  .products__grid {
+    row-gap: 0;
+    margin-bottom: calc(-1 * var(--space-5));
+  }
+
+  /* The zero minimum keeps a tile that grows taller for very large text
+     from widening its card through the tile's ratio. */
+  .products__grid > li {
+    display: grid;
+    grid-row: span 5;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    margin-bottom: var(--space-5);
+  }
+
+  .product {
+    display: grid;
+    grid-row: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+  }
+
+  /* A grid item with a ratio would otherwise size itself from that ratio. */
+  .product__media {
+    grid-row: 1;
+    place-self: stretch;
+  }
+
+  .product__tag {
+    grid-row: 2;
+  }
+
+  .product__name {
+    grid-row: 3;
+  }
+
+  .product__line {
+    grid-row: 4;
+  }
+
+  .product__foot {
+    grid-row: 5;
+  }
+}
+
+/* Very large default text, where pills may wrap: room above and below. */
+@media (max-width: 19.99em) {
+  .product__tag {
+    padding-block: 0.25rem;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 40em) {
+  .products__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product__media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 64em) {
+  .products__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--space-8);
+    max-width: none;
+  }
+
+  .products__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Forced colors drop the dark tile, so the rings take the text color. */
+@media (forced-colors: active) {
+  .product__ring [fill="none"] {
+    stroke: CanvasText;
+  }
+
+  .product__ring [fill="#c8ff4d"] {
+    fill: CanvasText;
   }
 }
 
@@ -2279,6 +2557,14 @@ html:not(.motion) .marquee__row {
   }
 }
 
+/* Until 75em the columns spread across the row anyway. A smaller minimum
+   gap keeps every link on one line just above 56.25em. */
+@media (min-width: 56.25em) and (max-width: 74.99em) {
+  .site-footer__nav {
+    column-gap: var(--space-6);
+  }
+}
+
 @media (min-width: 75em) {
   .site-footer__top {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -2655,6 +2941,15 @@ html:has(dialog[open]) {
     animation-duration: 80s;
   }
 
+  /* The product images load forever. One turn every 1.4 seconds reads as
+     loading. The arc still reaches the circle's top, right, bottom and left,
+     so it turns on the circle's true center. */
+  .product__spinner {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spin 1.4s linear infinite;
+  }
+
   /* Scroll reveal. The script adds .reveal-on only after it has marked
      everything already on screen, so nothing is hidden without it. */
   .reveal-on [data-reveal] {
@@ -2811,6 +3106,7 @@ html:has(dialog[open]) {
   .site-footer__ghost,
   .faq__icon,
   [data-marquee-toggle],
+  [data-loading-toggle],
   .marquee .marquee__set[aria-hidden="true"] {
     display: none;
   }
@@ -2930,6 +3226,7 @@ html:has(dialog[open]) {
     <nav class="site-nav" id="site-nav" aria-label="Primary">
       <ul class="site-nav__list">
         <li class="site-nav__item"><a class="site-nav__link" href="#solutions">Solutions</a></li>
+        <li class="site-nav__item"><a class="site-nav__link" href="#products">Products</a></li>
         <li class="site-nav__item"><a class="site-nav__link" href="#reviews">Reviews</a></li>
         <li class="site-nav__item"><a class="site-nav__link" href="#pricing">Pricing</a></li>
         <li class="site-nav__item"><a class="site-nav__link" href="#faq">FAQ</a></li>
@@ -3235,6 +3532,145 @@ html:has(dialog[open]) {
             <p class="card__body">It is in our name, so it gets a card. Our top minds have studied the phrase closely and agree on one thing: it sounds incredible out loud.</p>
             <dl class="card__meta"><dt>Definition</dt><dd>Coming soon</dd></dl>
           </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section products" id="products" aria-labelledby="products-title">
+    <div class="container">
+      <div class="section-head products__head" data-reveal>
+        <div>
+          <p class="eyebrow">Products</p>
+          <h2 class="section-title" id="products-title">Our products, fully specified and pictured&nbsp;shortly.</h2>
+        </div>
+        <div>
+          <p class="section-lead">Every price below has been checked to the cent. The images are being just as thorough.</p>
+          <button class="icon-btn products__pause" type="button" data-loading-toggle aria-pressed="false" hidden>
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="3.5" width="4" height="13" rx="1.2"/><rect x="11.5" y="3.5" width="4" height="13" rx="1.2"/></svg>
+            Pause<span class="visually-hidden"> loading</span>
+          </button>
+        </div>
+      </div>
+
+      <noscript><p class="products__noscript">JavaScript is off, so the Add to cart buttons cannot open their message. There is no cart and they take no money. This is a parody site and nothing is for sale.</p></noscript>
+
+      <ul class="products__grid">
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-360">
+            <h3 class="card__title product__name" id="product-apex-360" data-product-name>APEX 360</h3>
+            <p class="pill product__tag">A very round number</p>
+            <p class="card__body product__line">All 360 included. Every one counted, recounted and alphabetized.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption" data-caption-next="Loading image. 360 of 360 complete. Alphabetizing."><span class="product__caption-text">Loading image. 360 of 360 complete. Finalizing.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX 360">Add to cart</button>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-60">
+            <h3 class="card__title product__name" id="product-apex-60" data-product-name>APEX 60</h3>
+            <p class="card__body product__line">Everything in APEX 360 except the 3, which has left to pursue other opportunities. We wish it well.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption" data-caption-next="Not quicker yet. The 3 was holding more together than we knew."><span class="product__caption-text">This should load quicker without the 3.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX 60">Add to cart</button>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-itself">
+            <h3 class="card__title product__name" id="product-apex-itself" data-product-name>APEX Itself</h3>
+            <p class="card__body product__line">Benchmarked against itself. It won, narrowly.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption" data-caption-next="Still loading the image itself. Nearly there, it says."><span class="product__caption-text">It insisted on loading the image itself.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX Itself">Add to cart</button>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-again">
+            <h3 class="card__title product__name" id="product-apex-again" data-product-name>APEX Again</h3>
+            <p class="card__body product__line">The successor to APEX Itself and, once the paperwork clears, its predecessor.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption" data-caption-next="The photo is past the halfway mark. It is a very big stage."><span class="product__caption-text">Our CEO is still crossing the stage with the photo.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX Again">Add to cart</button>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-between">
+            <h3 class="card__title product__name" id="product-apex-between" data-product-name>APEX Between</h3>
+            <p class="card__body product__line">Our mid-tier choice, priced at the exact middle of our price range. The middle was easy to find.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption" data-caption-next="Estimate revised from 2 seconds to 2 seconds."><span class="product__caption-text">Estimated time remaining: 2 seconds.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX Between">Add to cart</button>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="card product" data-product aria-labelledby="product-apex-etc">
+            <h3 class="card__title product__name" id="product-apex-etc" data-product-name>APEX Etc.</h3>
+            <p class="pill product__tag">Partially announced</p>
+            <p class="card__body product__line">The rest of the lineup, in one convenient abbreviation.</p>
+            <div class="product__media" data-product-image>
+              <svg class="product__ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".3" stroke-dasharray="3 3.912"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".12"/>
+                <path class="product__spinner" d="M50 16A34 34 0 1 1 39.49 17.66" fill="none" stroke="#c8ff4d" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 4.681"/>
+                <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+              </svg>
+              <p class="product__caption"><span class="product__caption-text">Loading clockwise. No corners cut.</span></p>
+            </div>
+            <div class="product__foot">
+              <p class="product__price">$19.99</p>
+              <button class="btn btn--ink product__cart" type="button" data-cart aria-haspopup="dialog" aria-label="Add to cart: APEX Etc.">Add to cart</button>
+            </div>
+          </article>
         </li>
       </ul>
     </div>
@@ -3566,6 +4002,7 @@ html:has(dialog[open]) {
             <li><a class="footer-col__link" href="#pricing">All of It</a></li>
             <li><a class="footer-col__link" href="#pricing">The other one, too</a></li>
             <li><a class="footer-col__link" href="#solutions">Solutions (all&nbsp;six)</a></li>
+            <li><a class="footer-col__link" href="#products">Products (still&nbsp;loading)</a></li>
             <li><a class="footer-col__link" href="#top">Momentum (live)</a></li>
           </ul>
         </div>
@@ -3608,7 +4045,7 @@ html:has(dialog[open]) {
   <p class="site-footer__ghost" aria-hidden="true">IT'S HERE</p>
 </footer>
 
-<dialog class="modal" id="buy-dialog" aria-labelledby="buy-dialog-title" aria-describedby="buy-dialog-desc">
+<dialog class="modal" id="buy-dialog" aria-labelledby="buy-dialog-title" aria-describedby="buy-dialog-desc buy-dialog-line">
   <button class="modal__close" type="button" data-modal-close aria-label="Close dialog">
     <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>
   </button>
@@ -3630,6 +4067,7 @@ html:has(dialog[open]) {
   <div class="modal__body">
     <h2 class="modal__title" id="buy-dialog-title">No purchase was made. You were charged $0.00.</h2>
     <p class="modal__desc" id="buy-dialog-desc">No payment details or personal information were asked for or collected, because this is a parody site and nothing is for sale.</p>
+    <p class="modal__desc" id="buy-dialog-line" hidden></p>
     <dl class="modal__facts">
       <div class="modal__fact"><dt>Charged</dt><dd>$0.00</dd></div>
       <div class="modal__fact"><dt>What it was</dt><dd>Still unclear</dd></div>
@@ -3678,6 +4116,18 @@ html:has(dialog[open]) {
   var opener = null;
   var closing = null;
   var pressedOnBackdrop = false;
+  var cartLine = doc.getElementById('buy-dialog-line');
+
+  /* Add to cart opens the same honest dialog, plus one plain line that
+     names the product. It is set before every opening and left alone while
+     the dialog closes, so nothing jumps during the exit animation. */
+  function setCartLine(button) {
+    var card = button ? button.closest('[data-product]') : null;
+    var nameEl = card ? card.querySelector('[data-product-name]') : null;
+    var name = nameEl ? nameEl.textContent.trim() : '';
+    cartLine.textContent = name ? 'There is no cart. ' + name + ' is still loading.' : '';
+    cartLine.hidden = !name;
+  }
 
   function openDialog(button) {
     opener = button;
@@ -3790,8 +4240,15 @@ html:has(dialog[open]) {
 
   /* One delegated click handler for the whole page ------------------------ */
   doc.addEventListener('click', function (event) {
+    var cart = event.target.closest('[data-cart]');
+    if (cart) {
+      setCartLine(cart);
+      openDialog(cart);
+      return;
+    }
     var buy = event.target.closest('[data-buy]');
     if (buy) {
+      setCartLine(null);
       openDialog(buy);
       return;
     }
@@ -3874,6 +4331,27 @@ html:has(dialog[open]) {
 
   window.matchMedia('(min-width: 48em)').addEventListener('change', syncMarqueeFocus);
 
+  /* Product images: the endless loading can be paused, like the reviews.
+     The button only shows while the rings may move. */
+  var productsSection = doc.getElementById('products');
+  var loadingToggle = productsSection.querySelector('[data-loading-toggle]');
+
+  function syncLoadingToggle() {
+    loadingToggle.hidden = reduceMotion.matches;
+    if (reduceMotion.matches) {
+      productsSection.classList.remove('is-paused');
+      loadingToggle.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  loadingToggle.addEventListener('click', function () {
+    var paused = productsSection.classList.toggle('is-paused');
+    loadingToggle.setAttribute('aria-pressed', String(paused));
+  });
+
+  syncLoadingToggle();
+  reduceMotion.addEventListener('change', syncLoadingToggle);
+
   /* Scroll-driven polish, all optional ------------------------------------ */
   if (hasObserver) {
     /* Header goes clear only while the very top of the page is in view. */
@@ -3926,6 +4404,46 @@ html:has(dialog[open]) {
     });
 
     root.classList.add('reveal-on');
+  }
+
+  /* Product captions: each one with a second caption swaps to it once, after
+     it has stayed at least half in view for five seconds, and never again.
+     Scrolling past does not use the swap up: the wait starts over the next
+     time the caption is in view. Plain text, no fade, so there is nothing to
+     stop under reduced motion. Without the observer every first caption
+     simply stays. The observer also reports a caption that has only just
+     entered the screen, so the ratio is checked too. */
+  if (hasObserver) {
+    var swapTimers = new Map();
+
+    /* The caption it replaces moves into the attribute, where it keeps its
+       space invisibly, so the tile never changes height. */
+    var swapCaption = function (caption) {
+      var text = caption.querySelector('.product__caption-text');
+      var next = caption.getAttribute('data-caption-next');
+      caption.setAttribute('data-caption-next', text.textContent);
+      text.textContent = next;
+    };
+
+    var captionSwap = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var caption = entry.target;
+        var inView = entry.isIntersecting && entry.intersectionRatio >= 0.5;
+        if (inView && !swapTimers.has(caption)) {
+          swapTimers.set(caption, window.setTimeout(function () {
+            captionSwap.unobserve(caption);
+            swapCaption(caption);
+          }, 5000));
+        } else if (!inView && swapTimers.has(caption)) {
+          window.clearTimeout(swapTimers.get(caption));
+          swapTimers.delete(caption);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    doc.querySelectorAll('[data-caption-next]').forEach(function (caption) {
+      captionSwap.observe(caption);
+    });
   }
 })();
 </script>
