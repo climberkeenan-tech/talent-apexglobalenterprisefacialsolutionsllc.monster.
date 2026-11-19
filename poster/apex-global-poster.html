@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en" data-size="letter">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">
+<title>Apex Global Launch Poster</title>
+<style>
+/* ==========================================================================
+   Apex Global Enterprise Facial Solutions LLC. Parody launch poster, "The lineup".
+
+   One fixed-size page that never spills onto a second sheet. Every length is a
+   multiple of --u (1in on Letter) and every type size a multiple of --pt (one
+   point at Letter scale). The renderer sets data-size="tabloid" on <html> for
+   11 x 17 in: --u grows by 11 / 8.5 and the lineup re-lays itself for the
+   taller page (six cards in one row, the code card full width).
+
+   Print notes, learned the hard way:
+   - No CSS gradients, masks, blurs or filters. Chrome turns them into hidden
+     rasters or into shadings that poppler draws with dark seams. Gradients
+     live inside SVG, and flat colour everywhere else.
+   - The headline highlight is a text decoration: one solid rectangle per line,
+     painted under the type, with no seam at any resolution.
+   - Rules are 0.75 pt in --rule (#c9cde0). The site's --line is too pale to
+     survive a home inkjet.
+   ========================================================================== */
+
+@page { margin: 0; }
+
+:root {
+  --u: 1in;
+  --pt: calc(var(--u) / 72);
+  --rule-w: calc(0.75 * var(--pt));
+  --page-w: 8.5in;
+  --page-h: 11in;
+  --qr: 2.82;             /* QR artwork width in u. The code is 41/49 of it: 2.36 in on Letter. */
+
+  /* Brand tokens, copied from the site. */
+  --navy-950: #04061a;
+  --navy-900: #080c26;
+  --navy-800: #0e1440;
+  --navy-700: #171f5c;
+  --indigo-700: #3730a3;
+  --indigo-600: #4338ca;
+  --indigo-500: #5a55f2;
+  --indigo-400: #8286ff;
+  --indigo-200: #cdd1ff;
+  --indigo-50: #f1f2ff;
+  --volt: #c8ff4d;
+  --volt-bright: #dcff85;
+  --ink: #0b1030;
+  --ink-soft: #343b60;
+  --ink-muted: #5a6185;
+  --line: #e1e4f0;
+  --paper: #ffffff;
+  --mist: #f4f5fb;
+  /* Print-safe hairline colour (the site's --line vanishes on paper). */
+  --rule: #c9cde0;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Inter Display", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* 11 x 17 in: the same design 11 / 8.5 times larger, re-laid for the taller page. */
+html[data-size="tabloid"] {
+  --u: calc(11in / 8.5);
+  --page-w: 11in;
+  --page-h: 17in;
+  --qr: 2.9;              /* 3.14 in of code */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+svg { display: block; }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* The page ---------------------------------------------------------------- */
+.page {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: var(--page-w);
+  height: var(--page-h);
+  overflow: hidden;
+  padding: calc(0.5 * var(--u)) calc(0.5 * var(--u)) calc(0.44 * var(--u));
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: calc(11 * var(--pt));
+  line-height: 1.45;
+}
+
+/* The site's fine grid behind the headline, fading out (vector lines, no mask). */
+.texture {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: calc(6.4 * var(--u));
+  height: calc(5.2 * var(--u));
+  pointer-events: none;
+}
+
+/* Header -------------------------------------------------------------------- */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(0.3 * var(--u));
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: calc(0.12 * var(--u));
+}
+
+.brand__mark {
+  width: calc(0.46 * var(--u));
+  height: calc(0.46 * var(--u));
+}
+
+.brand__name {
+  color: var(--ink);
+  font-size: calc(20 * var(--pt));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand__tag {
+  display: inline-flex;
+  align-items: center;
+  height: calc(0.25 * var(--u));
+  padding: 0 calc(0.1 * var(--u));
+  border: var(--rule-w) solid #a9d82f;
+  border-radius: 999px;
+  background: var(--volt);
+  color: var(--navy-950);
+  font-size: calc(9.5 * var(--pt));
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.announce {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.07 * var(--u));
+  height: calc(0.32 * var(--u));
+  padding: 0 calc(0.14 * var(--u)) 0 calc(0.08 * var(--u));
+  border: var(--rule-w) solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: calc(10 * var(--pt));
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.icon-ring {
+  width: calc(0.2 * var(--u));
+  height: calc(0.2 * var(--u));
+  flex: none;
+  fill: none;
+  stroke: var(--indigo-600);
+  stroke-width: 1.75;
+  color: var(--indigo-600);
+}
+
+/* Headline ------------------------------------------------------------------ */
+.hero {
+  margin-top: calc(0.4 * var(--u));
+}
+
+.headline {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: calc(70 * var(--pt));
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.headline__line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* The site sets this phrase in volt on navy. On paper it becomes a volt
+   highlighter stroke under ink type: an underline pulled up behind the lower
+   half of the letters, drawn as one flat rectangle per line. */
+.hl {
+  text-decoration-line: underline;
+  text-decoration-color: var(--volt);
+  text-decoration-thickness: 0.34em;
+  text-underline-offset: -0.24em;
+  text-decoration-skip-ink: none;
+}
+
+.lead {
+  margin-top: calc(0.22 * var(--u));
+  color: var(--ink-soft);
+  font-size: calc(15.5 * var(--pt));
+  line-height: 1.4;
+}
+
+.lead strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Lineup -------------------------------------------------------------------- */
+/* Letter: product cards on the left (header row, two rows of three, status
+   line), the code card on the right running the full height. */
+.lineup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc((var(--qr) + 0.45) * var(--u));
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  column-gap: calc(0.2 * var(--u));
+  row-gap: calc(0.13 * var(--u));
+  margin-top: calc(0.36 * var(--u));
+}
+
+.lineup__head {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(0.2 * var(--u));
+  height: calc(0.24 * var(--u));
+  margin-top: calc(0.14 * var(--u));   /* level with the label inside the code card */
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: calc(0.1 * var(--u));
+  color: var(--indigo-600);
+  font-size: calc(9.5 * var(--pt));
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.eyebrow::before {
+  content: "";
+  width: calc(0.25 * var(--u));
+  height: calc(1.6 * var(--pt));
+  border-radius: calc(1 * var(--pt));
+  background: currentColor;
+}
+
+/* Small mono status notes, as the site's loading captions. */
+.note {
+  display: flex;
+  align-items: center;
+  gap: calc(0.06 * var(--u));
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: calc(8.5 * var(--pt));
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.note .icon-ring,
+.icon-check {
+  width: calc(0.17 * var(--u));
+  height: calc(0.17 * var(--u));
+  flex: none;
+}
+
+.lineup__eta {
+  grid-column: 1;
+  grid-row: 3;
+  height: calc(0.24 * var(--u));
+}
+
+.lineup__grid {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: calc(0.13 * var(--u));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: calc(0.07 * var(--u));
+  border-radius: calc(0.16 * var(--u));
+  background: var(--paper);
+  box-shadow: 0 0 0 var(--rule-w) var(--rule);
+}
+
+.tile {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: calc(0.1 * var(--u));
+  /* The navy gradient, the volt glow and the grid are painted inside the
+     tile's SVG: Chrome rasterizes CSS gradient backgrounds when printing. */
+  background: var(--navy-900);
+  overflow: hidden;
+}
+
+.tile__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tile__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 82%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.card__name {
+  margin: calc(0.1 * var(--u)) calc(0.025 * var(--u)) 0;
+  color: var(--ink);
+  font-size: calc(10.5 * var(--pt));
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.card__price {
+  margin: calc(0.06 * var(--u)) calc(0.025 * var(--u)) calc(0.02 * var(--u));
+  padding-top: calc(0.06 * var(--u));
+  border-top: var(--rule-w) dashed var(--rule);
+  color: var(--ink);
+  font-size: calc(13 * var(--pt));
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+/* The code card: the one image in the lineup that finished loading. */
+.feature {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  padding: calc(0.14 * var(--u)) calc(0.15 * var(--u)) calc(0.17 * var(--u));
+  border-radius: calc(0.22 * var(--u));
+  background: var(--paper);
+  box-shadow: 0 0 0 var(--rule-w) var(--rule);
+}
+
+.feature__loaded {
+  height: calc(0.24 * var(--u));
+  color: var(--ink-soft);
+}
+
+.feature__code {
+  position: relative;
+  width: calc(var(--qr) * var(--u));
+  margin: calc(0.135 * var(--u)) calc(0.075 * var(--u)) calc(0.075 * var(--u));
+}
+
+.feature__code .qr {
+  width: 100%;
+  height: auto;
+}
+
+/* Viewfinder corners, kept outside the code's four-module quiet zone. */
+.finder {
+  position: absolute;
+  inset: calc(-0.075 * var(--u));
+  width: calc(100% + 0.15 * var(--u));
+  height: calc(100% + 0.15 * var(--u));
+  overflow: visible;
+}
+
+.feature__cta {
+  margin: calc(0.12 * var(--u)) 0 0 calc(0.01 * var(--u));
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: calc(32 * var(--pt));
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  white-space: nowrap;
+}
+
+.feature__cta span {
+  display: block;
+  color: var(--indigo-600);
+}
+
+/* Tabloid only: a line from a volt dot into the code. */
+.feature__arrow {
+  display: none;
+}
+
+.arrow__dot {
+  width: calc(0.2 * var(--u));
+  height: calc(0.2 * var(--u));
+  flex: none;
+}
+
+.arrow__line {
+  flex: 1;
+  height: calc(2 * var(--pt));
+  margin: 0 calc(-0.03 * var(--u)) 0 calc(-0.01 * var(--u));
+  background: var(--ink);
+}
+
+.arrow__head {
+  width: calc(0.2 * var(--u));
+  height: calc(0.2 * var(--u));
+  flex: none;
+}
+
+/* Footer ----------------------------------------------------------------- */
+.foot {
+  margin-top: auto;
+  padding-top: calc(0.15 * var(--u));
+  border-top: var(--rule-w) solid var(--rule);
+}
+
+.disclosure {
+  color: var(--ink-soft);
+  font-size: calc(9 * var(--pt));
+  line-height: 1.45;
+}
+
+.disclosure strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.url {
+  margin-top: calc(0.06 * var(--u));
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: calc(8.25 * var(--pt));
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Tabloid ---------------------------------------------------------------------
+   11 x 17 is taller for its width than Letter, so the lineup stacks: the six
+   cards share one row under a status line, and the code card runs full width
+   under them with the call to action and an arrow beside the code. */
+html[data-size="tabloid"] .hero {
+  margin-top: calc(0.5 * var(--u));
+}
+
+/* The extra width on the right of the headline is used: 74 pt fills the measure. */
+html[data-size="tabloid"] .headline {
+  font-size: calc(74 * var(--pt));
+}
+
+html[data-size="tabloid"] .lead {
+  margin-top: calc(0.26 * var(--u));
+}
+
+html[data-size="tabloid"] .lineup {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  row-gap: calc(0.14 * var(--u));
+  margin-top: calc(0.5 * var(--u));
+}
+
+html[data-size="tabloid"] .lineup__head {
+  justify-content: flex-start;
+  gap: calc(0.3 * var(--u));
+  margin-top: 0;
+}
+
+/* The status line moves up into the header row, at its right end. */
+html[data-size="tabloid"] .lineup__eta {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: end;
+}
+
+html[data-size="tabloid"] .lineup__grid {
+  grid-row: 2;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: auto;
+  gap: calc(0.12 * var(--u));
+}
+
+html[data-size="tabloid"] .tile {
+  flex: none;
+  aspect-ratio: 1;
+}
+
+html[data-size="tabloid"] .card__name {
+  margin-inline: calc(0.025 * var(--u));
+  font-size: calc(9.5 * var(--pt));
+}
+
+html[data-size="tabloid"] .card__price {
+  margin-inline: calc(0.025 * var(--u));
+}
+
+html[data-size="tabloid"] .feature {
+  grid-column: 1;
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto auto auto 1fr;
+  column-gap: calc(0.2 * var(--u));
+  margin-top: calc(0.26 * var(--u));
+  padding: calc(0.26 * var(--u)) calc(0.26 * var(--u)) calc(0.26 * var(--u)) calc(0.32 * var(--u));
+  border-radius: calc(0.26 * var(--u));
+}
+
+html[data-size="tabloid"] .feature__loaded {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+html[data-size="tabloid"] .feature__code {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: center;
+  margin: calc(0.075 * var(--u));
+}
+
+html[data-size="tabloid"] .feature__cta {
+  grid-column: 1;
+  grid-row: 3;
+  margin: calc(0.2 * var(--u)) 0 0;
+  font-size: calc(43 * var(--pt));
+  letter-spacing: -0.042em;
+}
+
+html[data-size="tabloid"] .feature__arrow {
+  grid-column: 1;
+  grid-row: 4;
+  display: flex;
+  align-items: center;
+  margin: calc(0.3 * var(--u)) calc(-0.2 * var(--u)) 0 calc(0.02 * var(--u));
+}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" width="0" height="0">
+  <defs>
+    <radialGradient id="grid-fade" gradientUnits="userSpaceOnUse" cx="420" cy="170" r="400">
+      <stop offset="0" stop-color="#0b1030" stop-opacity=".1"/>
+      <stop offset=".55" stop-color="#0b1030" stop-opacity=".045"/>
+      <stop offset="1" stop-color="#0b1030" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tile-base" x1=".15" y1="0" x2=".85" y2="1">
+      <stop offset="0" stop-color="#171f5c"/>
+      <stop offset="1" stop-color="#04061a"/>
+    </linearGradient>
+    <radialGradient id="tile-glow" cx=".5" cy=".42" r=".56">
+      <stop offset="0" stop-color="#c8ff4d" stop-opacity=".12"/>
+      <stop offset=".7" stop-color="#c8ff4d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tile-fade" gradientUnits="userSpaceOnUse" cx="50" cy="50" r="52">
+      <stop offset="0" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <symbol id="i-mark" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="9" fill="#c8ff4d"/>
+    <path d="M9.5 21.5 16 10l6.5 11.5" fill="none" stroke="#04061a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="16" cy="21.5" r="2.3" fill="none" stroke="#04061a" stroke-width="2.2"/>
+  </symbol>
+  <symbol id="i-ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" stroke-linecap="butt" stroke-dasharray="2.8 2.305"/><circle cx="10" cy="10" r="2.25" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="tile-bg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+    <rect width="100" height="100" fill="url(#tile-base)"/>
+    <rect width="100" height="100" fill="url(#tile-glow)"/>
+    <path d="M2.5 0V100M17.5 0V100M32.5 0V100M47.5 0V100M62.5 0V100M77.5 0V100M92.5 0V100M0 5H100M0 20H100M0 35H100M0 50H100M0 65H100M0 80H100M0 95H100" fill="none" stroke="url(#tile-fade)" stroke-width=".7"/>
+  </symbol>
+  <!-- The products' loading ring. On the site it turns forever, one dash short
+       of a circle. Paper cannot turn, so each card shows one frame: a bright
+       leading dash, a fading tail and a clear gap, a sixth of a turn further on
+       every card. -->
+  <symbol id="ring" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#c8ff4d" stroke-width="2" stroke-linecap="round" stroke-opacity=".34" stroke-dasharray="3 3.912"/>
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-width="3.2" stroke-opacity=".07"/>
+    <g fill="none" stroke="#c8ff4d" stroke-width="3.2" stroke-linecap="round">
+    <path d="M36.68 18.72A34 34 0 0 1 42.38 16.86" stroke-opacity="1.00"/>
+    <path d="M27.67 24.36A34 34 0 0 1 32.52 20.84" stroke-opacity="0.96"/>
+    <path d="M20.84 32.52A34 34 0 0 1 24.36 27.67" stroke-opacity="0.92"/>
+    <path d="M16.86 42.38A34 34 0 0 1 18.72 36.68" stroke-opacity="0.88"/>
+    <path d="M16.13 53.00A34 34 0 0 1 16.13 47.00" stroke-opacity="0.83"/>
+    <path d="M18.72 63.32A34 34 0 0 1 16.86 57.62" stroke-opacity="0.79"/>
+    <path d="M24.36 72.33A34 34 0 0 1 20.84 67.48" stroke-opacity="0.75"/>
+    <path d="M32.52 79.16A34 34 0 0 1 27.67 75.64" stroke-opacity="0.71"/>
+    <path d="M42.38 83.14A34 34 0 0 1 36.68 81.28" stroke-opacity="0.67"/>
+    <path d="M53.00 83.87A34 34 0 0 1 47.00 83.87" stroke-opacity="0.63"/>
+    <path d="M63.32 81.28A34 34 0 0 1 57.62 83.14" stroke-opacity="0.59"/>
+    <path d="M72.33 75.64A34 34 0 0 1 67.48 79.16" stroke-opacity="0.54"/>
+    <path d="M79.16 67.48A34 34 0 0 1 75.64 72.33" stroke-opacity="0.50"/>
+    <path d="M83.14 57.62A34 34 0 0 1 81.28 63.32" stroke-opacity="0.46"/>
+    <path d="M83.87 47.00A34 34 0 0 1 83.87 53.00" stroke-opacity="0.42"/>
+    <path d="M46.26 16.21A34 34 0 0 1 53.74 16.21" stroke="#dcff85" stroke-width="5"/>
+    </g>
+    <circle cx="50" cy="50" r="4" fill="#c8ff4d"/>
+  </symbol>
+</svg>
+
+<div class="page">
+  <svg class="texture" viewBox="0 0 640 520" preserveAspectRatio="xMaxYMin slice" aria-hidden="true">
+    <path d="M0 0V520M40 0V520M80 0V520M120 0V520M160 0V520M200 0V520M240 0V520M280 0V520M320 0V520M360 0V520M400 0V520M440 0V520M480 0V520M520 0V520M560 0V520M600 0V520M640 0V520M0 0H640M0 40H640M0 80H640M0 120H640M0 160H640M0 200H640M0 240H640M0 280H640M0 320H640M0 360H640M0 400H640M0 440H640M0 480H640M0 520H640" fill="none" stroke="url(#grid-fade)" stroke-width="1"/>
+  </svg>
+
+  <header class="top">
+    <div class="brand">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-mark"/></svg>
+      <span class="brand__name">Apex Global</span>
+      <span class="brand__tag">Parody</span>
+    </div>
+    <p class="announce"><svg class="icon-ring" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-ring"/></svg>Now with more of it</p>
+  </header>
+
+  <section class="hero">
+    <h1 class="headline">
+      <span class="headline__line">The wait is over.</span>
+      <span class="headline__line"><span class="hl">It’s products and</span></span>
+      <span class="headline__line"><span class="hl">services.</span> Both.</span>
+    </h1>
+    <p class="lead">They do more. They are more. <strong>Legal has asked us to stop there.</strong></p>
+  </section>
+
+  <section class="lineup">
+    <div class="lineup__head">
+      <p class="eyebrow">Products</p>
+      <p class="note"><svg class="icon-ring" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-ring"/></svg>Pictured shortly</p>
+    </div>
+    <ul class="lineup__grid">
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(0 50 50)"/></svg></div>
+        <p class="card__name">APEX 360</p>
+        <p class="card__price">$19.99</p>
+      </li>
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(60 50 50)"/></svg></div>
+        <p class="card__name">APEX 60</p>
+        <p class="card__price">$19.99</p>
+      </li>
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(120 50 50)"/></svg></div>
+        <p class="card__name">APEX Itself</p>
+        <p class="card__price">$19.99</p>
+      </li>
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(180 50 50)"/></svg></div>
+        <p class="card__name">APEX Again</p>
+        <p class="card__price">$19.99</p>
+      </li>
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(240 50 50)"/></svg></div>
+        <p class="card__name">APEX Between</p>
+        <p class="card__price">$19.99</p>
+      </li>
+      <li class="card">
+        <div class="tile"><svg class="tile__bg" aria-hidden="true"><use href="#tile-bg"/></svg><svg class="tile__ring" viewBox="0 0 100 100" aria-hidden="true"><use href="#ring" transform="rotate(300 50 50)"/></svg></div>
+        <p class="card__name">APEX Etc.</p>
+        <p class="card__price">$19.99</p>
+      </li>
+    </ul>
+    <p class="note lineup__eta">Estimated time remaining: 2 seconds.</p>
+
+    <div class="feature">
+      <p class="note feature__loaded"><svg class="icon-check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="#c8ff4d" stroke="#a9d82f" stroke-width=".9"/><path d="M6.3 10.3l2.5 2.5 5-5.6" fill="none" stroke="#04061a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Image loaded</p>
+      <div class="feature__code">
+        <svg class="finder" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M1 13V5a4 4 0 0 1 4-4h8M87 1h8a4 4 0 0 1 4 4v8M99 87v8a4 4 0 0 1-4 4h-8M13 99H5a4 4 0 0 1-4-4v-8" fill="none" stroke="#04061a" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490" class="qr" role="img" aria-label="QR code for the Apex Global parody site"><title>QR code for the Apex Global parody site</title><g transform="scale(10)"><path fill="#fff" d="M0 0h49v49h-49z"/><path class="qrline" stroke="#000" d="M4 4.5h7m3 0h1m2 0h1m1 0h1m2 0h1m2 0h2m3 0h1m2 0h1m4 0h7m-41 1h1m5 0h1m1 0h1m2 0h1m1 0h1m2 0h2m2 0h1m4 0h2m1 0h1m3 0h1m1 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m1 0h2m2 0h3m2 0h7m1 0h1m8 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h4m1 0h1m1 0h2m2 0h2m1 0h2m4 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m3 0h3m3 0h1m1 0h3m1 0h2m4 0h1m2 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m4 0h1m1 0h1m1 0h2m4 0h2m3 0h1m2 0h2m1 0h1m1 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-33 1h1m1 0h1m3 0h1m5 0h1m3 0h1m1 0h1m1 0h1m-29 1h1m5 0h1m1 0h1m2 0h4m1 0h2m1 0h1m2 0h1m1 0h3m2 0h1m1 0h1m1 0h2m2 0h3m-40 1h2m3 0h1m4 0h1m5 0h4m2 0h2m3 0h1m1 0h3m1 0h1m1 0h2m-36 1h2m1 0h5m1 0h8m3 0h1m4 0h2m1 0h1m2 0h1m1 0h3m-37 1h1m2 0h3m1 0h1m4 0h2m2 0h1m3 0h1m5 0h2m3 0h7m-38 1h3m1 0h1m1 0h1m1 0h4m2 0h1m1 0h1m2 0h1m3 0h2m2 0h2m1 0h1m1 0h1m1 0h1m-35 1h2m3 0h1m2 0h1m3 0h1m1 0h2m1 0h2m2 0h1m3 0h1m4 0h3m1 0h4m2 0h1m-40 1h3m1 0h3m1 0h2m1 0h3m2 0h1m2 0h5m2 0h1m1 0h2m2 0h1m2 0h3m-35 1h1m2 0h1m1 0h1m2 0h4m2 0h1m1 0h1m1 0h2m4 0h1m4 0h1m3 0h2m1 0h1m-41 1h1m2 0h4m2 0h2m3 0h1m1 0h2m4 0h6m1 0h1m3 0h1m1 0h1m2 0h1m1 0h1m-41 1h1m1 0h2m3 0h3m3 0h2m1 0h1m2 0h5m3 0h2m1 0h8m2 0h1m-39 1h1m2 0h4m1 0h1m1 0h1m4 0h3m3 0h1m1 0h3m2 0h3m1 0h3m1 0h1m1 0h1m-41 1h3m4 0h2m4 0h4m4 0h1m1 0h2m1 0h1m3 0h2m1 0h1m2 0h2m2 0h1m-41 1h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2m1 0h3m1 0h2m1 0h2m1 0h1m2 0h1m1 0h2m7 0h1m1 0h1m-39 1h1m1 0h2m1 0h5m1 0h2m1 0h1m2 0h1m2 0h2m3 0h1m1 0h3m3 0h2m1 0h1m-39 1h1m4 0h4m4 0h6m1 0h2m3 0h1m1 0h2m4 0h1m1 0h4m-36 1h1m4 0h2m3 0h3m3 0h2m1 0h1m7 0h3m1 0h2m-36 1h1m1 0h1m1 0h1m1 0h1m2 0h1m5 0h2m2 0h1m4 0h1m2 0h2m3 0h1m1 0h2m1 0h1m-37 1h1m2 0h2m1 0h1m2 0h5m1 0h1m1 0h3m2 0h1m1 0h1m1 0h5m1 0h5m2 0h1m-41 1h3m1 0h3m1 0h3m2 0h2m2 0h2m1 0h3m2 0h5m2 0h1m1 0h1m1 0h1m-37 1h1m1 0h3m4 0h5m1 0h1m2 0h1m7 0h1m4 0h1m3 0h4m1 0h1m-40 1h1m1 0h5m1 0h2m3 0h1m2 0h1m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m4 0h2m1 0h1m-41 1h3m1 0h2m1 0h2m6 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m4 0h6m1 0h1m1 0h1m-41 1h4m2 0h1m1 0h3m1 0h2m1 0h2m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m-41 1h1m1 0h1m4 0h2m2 0h3m1 0h1m3 0h2m1 0h1m1 0h1m1 0h3m2 0h1m2 0h4m1 0h1m-40 1h1m1 0h1m2 0h4m2 0h7m1 0h1m2 0h1m2 0h2m2 0h1m2 0h8m-32 1h1m1 0h1m3 0h1m1 0h4m3 0h1m1 0h3m1 0h4m3 0h2m-38 1h7m2 0h4m4 0h1m3 0h1m2 0h4m1 0h1m1 0h2m1 0h1m1 0h1m1 0h2m-40 1h1m5 0h1m6 0h3m1 0h2m1 0h1m1 0h1m2 0h1m1 0h2m1 0h3m3 0h2m-38 1h1m1 0h3m1 0h1m3 0h1m2 0h1m2 0h2m1 0h4m1 0h2m1 0h2m1 0h7m2 0h1m-40 1h1m1 0h3m1 0h1m2 0h1m1 0h3m1 0h11m1 0h4m4 0h1m1 0h3m-40 1h1m1 0h3m1 0h1m4 0h2m1 0h1m1 0h3m3 0h1m1 0h2m1 0h1m2 0h1m2 0h4m1 0h1m-39 1h1m5 0h1m2 0h1m4 0h1m5 0h1m1 0h1m11 0h1m1 0h3m1 0h1m-41 1h7m1 0h3m4 0h1m1 0h1m1 0h1m4 0h4m1 0h1m3 0h4m1 0h1"/></g></svg>
+      </div>
+      <p class="feature__cta">Scan to see it. <span>Whatever it is.</span></p>
+      <div class="feature__arrow" aria-hidden="true">
+        <svg class="arrow__dot" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="#c8ff4d" stroke="#04061a" stroke-width="2"/></svg>
+        <span class="arrow__line"></span>
+        <svg class="arrow__head" viewBox="0 0 20 20"><path d="M7 3.5l7.5 6.5L7 16.5" fill="none" stroke="#0b1030" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="disclosure"><strong>Parody.</strong> Apex Global Enterprise Facial Solutions LLC is not a real company. Nothing is for sale, <br>no payments are taken, no information is collected, and nobody is being hired.</p>
+    <p class="url">https://climberkeenan-tech.github.io/talent-apexglobalenterprisefacialsolutionsllc.monster./</p>
+  </footer>
+</div>
+</body>
+</html>
